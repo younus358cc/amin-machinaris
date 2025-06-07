@@ -76,8 +76,8 @@ const Contact: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-1">{t('contact.address')}</h3>
                     <p className="text-gray-600">
-                      123 Machinery Lane, Motijheel<br />
-                      Dhaka 1000, Bangladesh
+                      মেলান্দহ বাজার, মাহমুদপুর রোড<br />
+                      জামালপুর, বাংলাদেশ
                     </p>
                   </div>
                 </div>
@@ -89,8 +89,8 @@ const Contact: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-1">Phone</h3>
                     <p className="text-gray-600">
-                      +880 1234-567890<br />
-                      +880 9876-543210
+                      +880 1912-658599<br />
+                      +880 1920-466397
                     </p>
                   </div>
                 </div>
@@ -139,7 +139,7 @@ const Contact: React.FC = () => {
                 <h3 className="text-lg font-semibold mb-4">আমাদের অবস্থান</h3>
                 <div className="h-64 bg-gray-200 rounded-lg overflow-hidden">
                   <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58403.64797307756!2d90.39105780259549!3d23.810514426110268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7a0f7b569df%3A0x7f2cf443b764e4a4!2sMotijheel%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1700592254432!5m2!1sen!2sbd" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58403.64797307756!2d89.91105780259549!3d24.910514426110268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fc54e7e81df441%3A0x27133ed921fe73f4!2sJamalpur!5e0!3m2!1sen!2sbd!4v1700592254432!5m2!1sen!2sbd" 
                     width="100%" 
                     height="100%" 
                     style={{ border: 0 }} 

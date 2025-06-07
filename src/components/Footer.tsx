@@ -118,13 +118,16 @@ const Footer: React.FC = () => {
               <li className="flex items-center space-x-3">
                 <Phone size={20} className="text-blue-500 flex-shrink-0" />
                 <div className="text-gray-400">
-                  <div>+880 1920-466397</div>
                   <div>+880 1912-658599</div>
+                  <div>+880 1920-466397</div>
                 </div>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail size={20} className="text-blue-500 flex-shrink-0" />
-                <span className="text-gray-400">info@aminmachineries.com</span>
+                <div className="text-gray-400">
+                  <div>info@aminmachineries.com</div>
+                  <div>sales@aminmachineries.com</div>
+                </div>
               </li>
             </ul>
           </div>

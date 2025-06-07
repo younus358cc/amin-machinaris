@@ -1,0 +1,36 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
+
+// Layout
+import Layout from './components/Layout';
+
+// Pages
+import Home from './pages/Home';
+import About from './pages/About';
+import Products from './pages/Products';
+import Services from './pages/Services';
+import Contact from './pages/Contact';
+import ProductDetail from './pages/ProductDetail';
+
+function App() {
+  return (
+    <I18nextProvider i18n={i18n}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/:id" element={<ProductDetail />} />
+            <Route path="services" element={<Services />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
+        </Routes>
+      </Router>
+    </I18nextProvider>
+  );
+}
+
+export default App;

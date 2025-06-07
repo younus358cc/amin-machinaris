@@ -25,7 +25,7 @@ const Services: React.FC = () => {
       id: 'maintenance',
       title: t('services.maintenance'),
       description: t('services.maintenanceText'),
-      icon: <Wrench className="text-blue-600" size={36} />,
+      icon: <Wrench className="text-blue-600\" size={36} />,
       image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600',
       details: [
         'নিয়মিত রক্ষণাবেক্ষণ',
@@ -51,7 +51,7 @@ const Services: React.FC = () => {
       id: 'consultancy',
       title: t('services.consultancy'),
       description: t('services.consultancyText'),
-      icon: <FileText className="text-blue-600" size={36} />,
+      icon: <FileText className="text-blue-600\" size={36} />,
       image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600',
       details: [
         'প্রকল্প পরিকল্পনা',

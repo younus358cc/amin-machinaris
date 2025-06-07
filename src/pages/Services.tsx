@@ -13,7 +13,7 @@ const Services: React.FC = () => {
       title: t('services.installation'),
       description: t('services.installationText'),
       icon: <Truck className="text-blue-600" size={36} />,
-      image: 'https://images.pexels.com/photos/1216544/pexels-photo-1216544.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600',
       details: [
         'পেশাদার ইনস্টলেশন টিম',
         'সময়মত সেবা প্রদান',
@@ -25,8 +25,8 @@ const Services: React.FC = () => {
       id: 'maintenance',
       title: t('services.maintenance'),
       description: t('services.maintenanceText'),
-      icon: <Wrench className="text-blue-600\" size={36} />,
-      image: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: <Wrench className="text-blue-600" size={36} />,
+      image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600',
       details: [
         'নিয়মিত রক্ষণাবেক্ষণ',
         'জরুরী মেরামত সেবা',
@@ -39,7 +39,7 @@ const Services: React.FC = () => {
       title: t('services.spareParts'),
       description: t('services.sparePartsText'),
       icon: <Package className="text-blue-600" size={36} />,
-      image: 'https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600',
       details: [
         'আসল স্পেয়ার পার্টস',
         'দ্রুত সরবরাহ',
@@ -51,8 +51,8 @@ const Services: React.FC = () => {
       id: 'consultancy',
       title: t('services.consultancy'),
       description: t('services.consultancyText'),
-      icon: <FileText className="text-blue-600\" size={36} />,
-      image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: <FileText className="text-blue-600" size={36} />,
+      image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600',
       details: [
         'প্রকল্প পরিকল্পনা',
         'যন্ত্রপাতি নির্বাচন',
@@ -69,7 +69,7 @@ const Services: React.FC = () => {
         <div className="absolute inset-0 z-10 bg-black opacity-40"></div>
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.pexels.com/photos/3862131/pexels-photo-3862131.jpeg?auto=compress&cs=tinysrgb&w=1600')" }}
+          style={{ backgroundImage: "url('https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600')" }}
         ></div>
         
         <div className="container mx-auto px-4 relative z-20">

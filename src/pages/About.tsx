@@ -20,7 +20,7 @@ const About: React.FC = () => {
         <div className="absolute inset-0 z-10 bg-black opacity-40"></div>
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1600')" }}
+          style={{ backgroundImage: "url('https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600')" }}
         ></div>
         
         <div className="container mx-auto px-4 relative z-20">
@@ -42,7 +42,7 @@ const About: React.FC = () => {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                src="https://images.pexels.com/photos/2760289/pexels-photo-2760289.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600" 
                 alt="Company History" 
                 className="rounded-lg shadow-lg w-full"
               />

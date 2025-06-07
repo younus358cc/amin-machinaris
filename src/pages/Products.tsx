@@ -32,7 +32,7 @@ const Products: React.FC = () => {
         category: 'construction',
         model: 'EX-220',
         brand: 'কাটারপিলার',
-        image: 'https://images.pexels.com/photos/4482936/pexels-photo-4482936.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 2,
@@ -41,7 +41,7 @@ const Products: React.FC = () => {
         category: 'industrial',
         model: 'IG-5000',
         brand: 'কুমিনস',
-        image: 'https://images.pexels.com/photos/96380/pexels-photo-96380.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 3,
@@ -50,7 +50,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'AP-100',
         brand: 'যামাহা',
-        image: 'https://images.pexels.com/photos/5711855/pexels-photo-5711855.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 4,
@@ -59,7 +59,7 @@ const Products: React.FC = () => {
         category: 'construction',
         model: 'FL-320',
         brand: 'জেসিবি',
-        image: 'https://images.pexels.com/photos/2058911/pexels-photo-2058911.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 5,
@@ -68,7 +68,7 @@ const Products: React.FC = () => {
         category: 'industrial',
         model: 'IC-420',
         brand: 'আটলাস কপকো',
-        image: 'https://images.pexels.com/photos/5202296/pexels-photo-5202296.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 6,
@@ -77,7 +77,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'PT-500',
         brand: 'সোনালিকা',
-        image: 'https://images.pexels.com/photos/7346600/pexels-photo-7346600.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 7,
@@ -86,7 +86,7 @@ const Products: React.FC = () => {
         category: 'industrial',
         model: 'EG-2000',
         brand: 'পারকিনস',
-        image: 'https://images.pexels.com/photos/1394711/pexels-photo-1394711.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 8,
@@ -95,7 +95,7 @@ const Products: React.FC = () => {
         category: 'construction',
         model: 'CM-350',
         brand: 'হিমালয়',
-        image: 'https://images.pexels.com/photos/2432031/pexels-photo-2432031.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 9,
@@ -139,7 +139,7 @@ const Products: React.FC = () => {
         <div className="absolute inset-0 z-10 bg-black opacity-40"></div>
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.pexels.com/photos/4489745/pexels-photo-4489745.jpeg?auto=compress&cs=tinysrgb&w=1600')" }}
+          style={{ backgroundImage: "url('https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600')" }}
         ></div>
         
         <div className="container mx-auto px-4 relative z-20">

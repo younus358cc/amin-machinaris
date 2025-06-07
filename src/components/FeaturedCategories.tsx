@@ -10,7 +10,7 @@ const FeaturedCategories: React.FC = () => {
     {
       id: 'construction',
       name: t('categories.construction'),
-      image: 'https://images.pexels.com/photos/2760289/pexels-photo-2760289.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600',
       link: '/products?category=construction'
     },
     {
@@ -22,7 +22,7 @@ const FeaturedCategories: React.FC = () => {
     {
       id: 'industrial',
       name: t('categories.industrial'),
-      image: 'https://images.pexels.com/photos/4489729/pexels-photo-4489729.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600',
       link: '/products?category=industrial'
     }
   ];

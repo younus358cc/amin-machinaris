@@ -59,7 +59,7 @@ const Home: React.FC = () => {
             >
               <div className="h-64 overflow-hidden">
                 <img 
-                  src="https://images.pexels.com/photos/4482936/pexels-photo-4482936.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                  src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600" 
                   alt="Construction Equipment" 
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
@@ -85,7 +85,7 @@ const Home: React.FC = () => {
             >
               <div className="h-64 overflow-hidden">
                 <img 
-                  src="https://images.pexels.com/photos/96380/pexels-photo-96380.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                  src="https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600" 
                   alt="Industrial Generator" 
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
@@ -111,7 +111,7 @@ const Home: React.FC = () => {
             >
               <div className="h-64 overflow-hidden">
                 <img 
-                  src="https://images.pexels.com/photos/5711855/pexels-photo-5711855.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                  src="https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600" 
                   alt="Agricultural Pump" 
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />

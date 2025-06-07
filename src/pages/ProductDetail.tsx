@@ -45,7 +45,7 @@ const ProductDetail: React.FC = () => {
           category: 'construction',
           model: 'EX-220',
           brand: 'কাটারপিলার',
-          image: 'https://images.pexels.com/photos/4482936/pexels-photo-4482936.jpeg?auto=compress&cs=tinysrgb&w=1600',
+          image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600',
           detailedDescription: 'আমাদের হাইড্রোলিক এক্সকাভেটর অত্যাধুনিক প্রযুক্তি ব্যবহার করে তৈরি করা হয়েছে যা আপনাকে যেকোনো ধরণের নির্মাণ প্রকল্পে সর্বোচ্চ দক্ষতা অর্জন করতে সাহায্য করে। এটি উচ্চ ক্ষমতাসম্পন্ন ইঞ্জিন এবং উন্নত হাইড্রোলিক সিস্টেম দিয়ে সজ্জিত, যা কঠিন মাটি এবং ভারী সামগ্রী সহজে খনন করতে পারে। এটি বিভিন্ন ধরণের অ্যাটাচমেন্টের সাথে ব্যবহার করা যেতে পারে, যা একে একটি বহুমুখী যন্ত্র করে তোলে।',
           specifications: {
             'ইঞ্জিন': 'কাটারপিলার C6.6 ACERT™',
@@ -71,7 +71,7 @@ const ProductDetail: React.FC = () => {
           category: 'industrial',
           model: 'IG-5000',
           brand: 'কুমিনস',
-          image: 'https://images.pexels.com/photos/96380/pexels-photo-96380.jpeg?auto=compress&cs=tinysrgb&w=1600',
+          image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600',
           detailedDescription: 'আমাদের ইন্ডাস্ট্রিয়াল জেনারেটরগুলি শিল্প প্রতিষ্ঠানের জন্য নিরবচ্ছিন্ন বিদ্যুৎ সরবরাহ নিশ্চিত করতে ডিজাইন করা হয়েছে। এগুলি উচ্চ মানের কুমিনস ইঞ্জিন দিয়ে তৈরি, যা দীর্ঘস্থায়ী এবং নির্ভরযোগ্য কার্যক্ষমতা প্রদান করে। এই জেনারেটরগুলি বিদ্যুৎ বিভ্রাট, লোডশেডিং বা অন্যান্য জরুরী অবস্থায় আপনার ব্যবসা চালু রাখতে আদর্শ।',
           specifications: {
             'ইঞ্জিন': 'কুমিনস QSX15-G9',
@@ -98,7 +98,7 @@ const ProductDetail: React.FC = () => {
           category: 'agricultural',
           model: 'AP-100',
           brand: 'যামাহা',
-          image: 'https://images.pexels.com/photos/5711855/pexels-photo-5711855.jpeg?auto=compress&cs=tinysrgb&w=1600',
+          image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600',
           detailedDescription: 'আমাদের এগ্রিকালচারাল পাম্পগুলি বাংলাদেশের কৃষকদের চাহিদা মাথায় রেখে তৈরি করা হয়েছে। এই পাম্পগুলি কৃষি সেচের জন্য আদর্শ, যা দক্ষতার সাথে জল সরবরাহ করে এবং ফসলের উৎপাদন বাড়াতে সাহায্য করে। এগুলি সহজে পরিবহনযোগ্য, টেকসই এবং কম রক্ষণাবেক্ষণের প্রয়োজন হয়।',
           specifications: {
             'ইঞ্জিন': 'যামাহা MZ175',
@@ -424,8 +424,8 @@ const ProductDetail: React.FC = () => {
             >
               {formStatus === 'sending' ? (
                 <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white\" xmlns="http://www.w3.org/2000/svg\" fill="none\" viewBox="0 0 24 24">
-                    <circle className="opacity-25\" cx="12\" cy="12\" r="10\" stroke="currentColor\" strokeWidth="4"></circle>
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
                   অনুরোধ পাঠানো হচ্ছে...

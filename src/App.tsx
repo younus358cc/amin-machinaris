@@ -5,6 +5,7 @@ import i18n from './i18n';
 
 // Layout
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import Home from './pages/Home';
@@ -13,6 +14,7 @@ import Products from './pages/Products';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
 import ProductDetail from './pages/ProductDetail';
+import Invoicing from './pages/Invoicing';
 
 function App() {
   return (
@@ -26,6 +28,14 @@ function App() {
             <Route path="products/:id" element={<ProductDetail />} />
             <Route path="services" element={<Services />} />
             <Route path="contact" element={<Contact />} />
+            <Route 
+              path="invoicing" 
+              element={
+                <ProtectedRoute>
+                  <Invoicing />
+                </ProtectedRoute>
+              } 
+            />
           </Route>
         </Routes>
       </Router>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Globe, Phone, LogIn, LogOut, User } from 'lucide-react';
+import { Menu, X, Globe, Phone, LogIn, LogOut, User, Calculator } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoginModal from './LoginModal';
 
 const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -56,6 +57,11 @@ const Header: React.FC = () => {
       localStorage.setItem('aminmachinaris_logged_in', 'true');
       setLoginMessage('সফলভাবে লগইন হয়েছে!');
       
+      // Navigate to invoicing page after successful login
+      setTimeout(() => {
+        navigate('/invoicing');
+      }, 1500);
+      
       // Clear success message after 3 seconds
       setTimeout(() => {
         setLoginMessage('');
@@ -74,6 +80,9 @@ const Header: React.FC = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('aminmachinaris_logged_in');
     setLoginMessage('সফলভাবে লগআউট হয়েছে!');
+    
+    // Navigate to home page after logout
+    navigate('/');
     
     // Clear logout message after 3 seconds
     setTimeout(() => {
@@ -150,6 +159,13 @@ const Header: React.FC = () => {
               {/* Login/Logout Button */}
               {isLoggedIn ? (
                 <div className="flex items-center space-x-3">
+                  <Link
+                    to="/invoicing"
+                    className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    <Calculator size={18} />
+                    <span>অ্যাকাউন্টিং</span>
+                  </Link>
                   <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-1.5 rounded-lg">
                     <User size={16} />
                     <span className="text-sm font-medium">অ্যাডমিন</span>
@@ -185,13 +201,22 @@ const Header: React.FC = () => {
             <div className="md:hidden flex items-center space-x-4">
               {/* Mobile Login Button */}
               {isLoggedIn ? (
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center space-x-1 bg-red-600 hover:bg-red-700 text-white px-2 py-1.5 rounded-lg transition-colors text-sm"
-                >
-                  <LogOut size={14} />
-                  <span>লগআউট</span>
-                </button>
+                <div className="flex items-center space-x-2">
+                  <Link
+                    to="/invoicing"
+                    className="flex items-center space-x-1 bg-purple-600 hover:bg-purple-700 text-white px-2 py-1.5 rounded-lg transition-colors text-sm"
+                  >
+                    <Calculator size={14} />
+                    <span>অ্যাকাউন্টিং</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-1 bg-red-600 hover:bg-red-700 text-white px-2 py-1.5 rounded-lg transition-colors text-sm"
+                  >
+                    <LogOut size={14} />
+                    <span>লগআউট</span>
+                  </button>
+                </div>
               ) : (
                 <button
                   onClick={handleLoginClick}
@@ -263,9 +288,19 @@ const Header: React.FC = () => {
                   
                   {/* Mobile Admin Status */}
                   {isLoggedIn && (
-                    <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
-                      <User size={16} />
-                      <span className="text-sm font-medium">অ্যাডমিন হিসেবে লগইন</span>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
+                        <User size={16} />
+                        <span className="text-sm font-medium">অ্যাডমিন হিসেবে লগইন</span>
+                      </div>
+                      <Link
+                        to="/invoicing"
+                        onClick={closeMenu}
+                        className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-lg transition-colors"
+                      >
+                        <Calculator size={16} />
+                        <span>অ্যাকাউন্টিং সিস্টেম</span>
+                      </Link>
                     </div>
                   )}
                 </nav>

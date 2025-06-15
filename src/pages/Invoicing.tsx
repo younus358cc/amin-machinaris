@@ -24,8 +24,11 @@ import {
   Receipt,
   Banknote,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Send,
+  Copy
 } from 'lucide-react';
+import InvoiceForm from '../components/InvoiceForm';
 
 interface Invoice {
   id: string;
@@ -79,6 +82,7 @@ const Invoicing: React.FC = () => {
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Initialize with sample data
   useEffect(() => {
@@ -162,6 +166,32 @@ const Invoicing: React.FC = () => {
     setTransactions(sampleTransactions);
   }, []);
 
+  // Show notification
+  const showNotification = (type: 'success' | 'error', message: string) => {
+    setNotification({ type, message });
+    setTimeout(() => setNotification(null), 5000);
+  };
+
+  // Handle new invoice creation
+  const handleCreateInvoice = (invoiceData: any) => {
+    const newInvoice: Invoice = {
+      id: Date.now().toString(),
+      invoiceNumber: invoiceData.invoiceNumber,
+      clientName: invoiceData.clientName,
+      clientEmail: invoiceData.clientEmail,
+      amount: invoiceData.subtotal,
+      tax: invoiceData.taxAmount,
+      totalAmount: invoiceData.totalAmount,
+      status: invoiceData.status,
+      dueDate: invoiceData.dueDate,
+      createdDate: invoiceData.invoiceDate,
+      items: invoiceData.items
+    };
+
+    setInvoices(prev => [newInvoice, ...prev]);
+    showNotification('success', `ইনভয়েস ${invoiceData.invoiceNumber} সফলভাবে তৈরি হয়েছে!`);
+  };
+
   // Calculate dashboard statistics
   const dashboardStats = {
     totalRevenue: invoices.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + inv.totalAmount, 0),
@@ -202,8 +232,46 @@ const Invoicing: React.FC = () => {
     }
   };
 
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'paid': return 'পরিশোধিত';
+      case 'sent': return 'প্রেরিত';
+      case 'overdue': return 'বকেয়া';
+      case 'draft': return 'খসড়া';
+      default: return 'অজানা';
+    }
+  };
+
   const DashboardTab = () => (
     <div className="space-y-6">
+      {/* Quick Actions */}
+      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+        <h3 className="text-lg font-semibold mb-4">দ্রুত অ্যাকশন</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => setShowCreateInvoice(true)}
+            className="flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg transition-colors"
+          >
+            <Plus size={20} />
+            <span>নতুন ইনভয়েস</span>
+          </button>
+          <button
+            onClick={() => setShowCreateClient(true)}
+            className="flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg transition-colors"
+          >
+            <Users size={20} />
+            <span>নতুন ক্লায়েন্ট</span>
+          </button>
+          <button
+            onClick={() => setShowAddTransaction(true)}
+            className="flex items-center justify-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg transition-colors"
+          >
+            <DollarSign size={20} />
+            <span>নতুন লেনদেন</span>
+          </button>
+        </div>
+      </div>
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <motion.div
@@ -319,11 +387,7 @@ const Invoicing: React.FC = () => {
                   <p className="font-semibold">{formatCurrency(invoice.totalAmount)}</p>
                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
                     {getStatusIcon(invoice.status)}
-                    <span className="ml-1">
-                      {invoice.status === 'paid' ? 'পরিশোধিত' : 
-                       invoice.status === 'sent' ? 'প্রেরিত' : 
-                       invoice.status === 'overdue' ? 'বকেয়া' : 'খসড়া'}
-                    </span>
+                    <span className="ml-1">{getStatusText(invoice.status)}</span>
                   </span>
                 </div>
               </div>
@@ -408,11 +472,7 @@ const Invoicing: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
                       {getStatusIcon(invoice.status)}
-                      <span className="ml-1">
-                        {invoice.status === 'paid' ? 'পরিশোধিত' : 
-                         invoice.status === 'sent' ? 'প্রেরিত' : 
-                         invoice.status === 'overdue' ? 'বকেয়া' : 'খসড়া'}
-                      </span>
+                      <span className="ml-1">{getStatusText(invoice.status)}</span>
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -420,17 +480,23 @@ const Invoicing: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center space-x-2">
-                      <button className="text-blue-600 hover:text-blue-900">
+                      <button className="text-blue-600 hover:text-blue-900" title="দেখুন">
                         <Eye size={16} />
                       </button>
-                      <button className="text-green-600 hover:text-green-900">
+                      <button className="text-green-600 hover:text-green-900" title="সম্পাদনা">
                         <Edit size={16} />
                       </button>
-                      <button className="text-red-600 hover:text-red-900">
-                        <Trash2 size={16} />
+                      <button className="text-purple-600 hover:text-purple-900" title="কপি">
+                        <Copy size={16} />
                       </button>
-                      <button className="text-gray-600 hover:text-gray-900">
+                      <button className="text-orange-600 hover:text-orange-900" title="পাঠান">
+                        <Send size={16} />
+                      </button>
+                      <button className="text-gray-600 hover:text-gray-900" title="ডাউনলোড">
                         <Download size={16} />
+                      </button>
+                      <button className="text-red-600 hover:text-red-900" title="মুছুন">
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   </td>
@@ -723,6 +789,37 @@ const Invoicing: React.FC = () => {
             {activeTab === 'transactions' && <TransactionsTab />}
             {activeTab === 'reports' && <ReportsTab />}
           </motion.div>
+        </AnimatePresence>
+
+        {/* Invoice Form Modal */}
+        <InvoiceForm
+          isOpen={showCreateInvoice}
+          onClose={() => setShowCreateInvoice(false)}
+          onSave={handleCreateInvoice}
+          clients={clients}
+        />
+
+        {/* Notification */}
+        <AnimatePresence>
+          {notification && (
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              className="fixed top-24 right-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm"
+            >
+              <div className={`flex items-center space-x-2 ${
+                notification.type === 'success' ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {notification.type === 'success' ? (
+                  <CheckCircle size={20} />
+                ) : (
+                  <AlertCircle size={20} />
+                )}
+                <span className="font-medium">{notification.message}</span>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </div>

@@ -108,7 +108,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => 
                   সফলভাবে লগইন হয়েছে!
                 </h3>
                 <p className="text-gray-600">
-                  স্বাগতম, অমিন মেশিনারিজ অ্যাডমিন প্যানেলে।
+                  স্বাগতম, আমিন মেশিনারিজ অ্যাডমিন প্যানেলে।
                 </p>
               </motion.div>
             ) : (

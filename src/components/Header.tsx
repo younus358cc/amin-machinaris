@@ -125,7 +125,7 @@ const Header: React.FC = () => {
                 <path d="m8 8 8 8" />
               </svg>
               <span className={`text-xl font-bold ${scrolled ? 'text-blue-600' : 'text-white'}`}>
-                অমিন মেশিনারিজ
+                আমিন মেশিনারিজ
               </span>
             </Link>
 

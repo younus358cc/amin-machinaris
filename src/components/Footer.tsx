@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
                 <path d="m16 8-8 8" />
                 <path d="m8 8 8 8" />
               </svg>
-              <span className="text-xl font-bold">অমিন মেশিনারিজ</span>
+              <span className="text-xl font-bold">আমিন মেশিনারিজ</span>
             </div>
             <p className="text-gray-400 mb-4">
               বাংলাদেশের সেরা শিল্প যন্ত্রপাতির সমাধান প্রদানকারী।
@@ -136,7 +136,7 @@ const Footer: React.FC = () => {
         {/* Copyright */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            &copy; {currentYear} অমিন মেশিনারিজ। {t('footer.rights')}
+            &copy; {currentYear} আমিন মেশিনারিজ। {t('footer.rights')}
           </p>
           <div className="flex space-x-4">
             <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">

@@ -266,7 +266,7 @@ const Products: React.FC = () => {
         category: 'tools',
         model: 'HTS-100-Pro',
         brand: 'স্ট্যানলি',
-        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://tools.com.bd/public/storage/product/tolsen-9pcs-hand-tool-set-665414ac35fd4.jpg',
         price: '৳ ১৫,০০০ - ৳ ২২,০০০'
       },
       {

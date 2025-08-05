@@ -246,7 +246,7 @@ const Products: React.FC = () => {
         category: 'tools',
         model: 'AG-125-HD',
         brand: 'ম্যাকিতা',
-        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://bn.smartdeal.com.bd/public/uploads/all/bx2gQWuZrOzYnRMuuNjWGWAT1ieOadQUKMwtxqJv.jpg',
         price: '৳ ৮,৫০০ - ৳ ১২,৫০০'
       },
       {

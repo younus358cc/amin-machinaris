@@ -286,7 +286,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'AHT-Complete',
         brand: 'ফার্ম টুলস',
-        image: 'https://images.pexels.com/photos/4110303/pexels-photo-4110303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://www.industrybuying.com/wp-content/uploads/2024/10/Agriculture-Hand-Tools.jpg',
         price: '৳ ৫,০০০ - ৳ ৮,০০০'
       }
     ];

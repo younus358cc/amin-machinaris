@@ -184,7 +184,7 @@ const Products: React.FC = () => {
         category: 'automotive',
         model: 'Scorpio-N Z8L',
         brand: 'মাহিন্দ্রা',
-        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://cdx.dhakamail.com/media/images/2024April/mahindara_20240428_152908359.jpeg',
         price: '৳ ৩৫,০০,০০০ - ৳ ৪৫,০০,০০০'
       },
       {

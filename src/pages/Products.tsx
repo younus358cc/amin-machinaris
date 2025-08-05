@@ -172,7 +172,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'TSM-500L',
         brand: 'ফার্ম ইকুইপমেন্ট',
-        image: 'https://images.pexels.com/photos/4110303/pexels-photo-4110303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://i0.wp.com/successfarmbd.com/wp-content/uploads/2021/09/%E0%A6%B8%E0%A7%81%E0%A6%B2%E0%A6%AD-%E0%A6%B9%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%A1-%E0%A6%B8%E0%A7%8D%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%B0-%E0%A7%A7%E0%A7%AC-%E0%A6%B2%E0%A6%BF%E0%A6%9F%E0%A6%BE%E0%A6%B0-Sulov-Hand-Sprayer-16Ltr.jpg?fit=500%2C500&ssl=1',
         price: '৳ ১,২০,০০০ - ৳ ১,৮০,০০০'
       },
       

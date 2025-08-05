@@ -25,6 +25,7 @@ const Products: React.FC = () => {
   // Mock products data
   useEffect(() => {
     const productsData: Product[] = [
+      // Existing Construction Equipment
       {
         id: 1,
         name: 'হাইড্রোলিক এক্সকাভেটর',
@@ -33,24 +34,6 @@ const Products: React.FC = () => {
         model: 'EX-220',
         brand: 'কাটারপিলার',
         image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
-      },
-      {
-        id: 2,
-        name: 'ইন্ডাস্ট্রিয়াল জেনারেটর',
-        description: 'উচ্চ ক্ষমতার জেনারেটর যা আপনার শিল্প প্রতিষ্ঠানের জন্য নিরবচ্ছিন্ন বিদ্যুৎ সরবরাহ নিশ্চিত করে।',
-        category: 'industrial',
-        model: 'IG-5000',
-        brand: 'কুমিনস',
-        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
-      },
-      {
-        id: 3,
-        name: 'এগ্রিকালচারাল পাম্প',
-        description: 'কৃষি সেচের জন্য আধুনিক পাম্প যা জল সরবরাহ করে এবং ফসলের উৎপাদন বাড়ায়।',
-        category: 'agricultural',
-        model: 'AP-100',
-        brand: 'যামাহা',
-        image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 4,
@@ -62,6 +45,26 @@ const Products: React.FC = () => {
         image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
+        id: 8,
+        name: 'কন্ক্রিট মিক্সার',
+        description: 'উচ্চ মানের কন্ক্রিট মিক্সার যা নির্মাণ কাজে ব্যবহার করা হয়।',
+        category: 'construction',
+        model: 'CM-350',
+        brand: 'হিমালয়',
+        image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
+      },
+      
+      // Industrial Equipment
+      {
+        id: 2,
+        name: 'ইন্ডাস্ট্রিয়াল জেনারেটর',
+        description: 'উচ্চ ক্ষমতার জেনারেটর যা আপনার শিল্প প্রতিষ্ঠানের জন্য নিরবচ্ছিন্ন বিদ্যুৎ সরবরাহ নিশ্চিত করে।',
+        category: 'industrial',
+        model: 'IG-5000',
+        brand: 'কুমিনস',
+        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
+      },
+      {
         id: 5,
         name: 'ইন্ডাস্ট্রিয়াল কম্প্রেসার',
         description: 'শিল্প প্রতিষ্ঠানের জন্য উচ্চ মানের কম্প্রেসার যা বিভিন্ন কাজে ব্যবহার করা যায়।',
@@ -69,6 +72,26 @@ const Products: React.FC = () => {
         model: 'IC-420',
         brand: 'আটলাস কপকো',
         image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
+      },
+      {
+        id: 7,
+        name: 'ইলেকট্রিক জেনারেটর',
+        description: 'আপনার ব্যবসার জন্য বিশ্বস্ত বিদ্যুৎ সরবরাহ।',
+        category: 'industrial',
+        model: 'EG-2000',
+        brand: 'পারকিনস',
+        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
+      },
+      
+      // Agricultural Equipment - Existing
+      {
+        id: 3,
+        name: 'এগ্রিকালচারাল পাম্প',
+        description: 'কৃষি সেচের জন্য আধুনিক পাম্প যা জল সরবরাহ করে এবং ফসলের উৎপাদন বাড়ায়।',
+        category: 'agricultural',
+        model: 'AP-100',
+        brand: 'যামাহা',
+        image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
         id: 6,
@@ -80,24 +103,6 @@ const Products: React.FC = () => {
         image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
       },
       {
-        id: 7,
-        name: 'ইলেকট্রিক জেনারেটর',
-        description: 'আপনার ব্যবসার জন্য বিশ্বস্ত বিদ্যুৎ সরবরাহ।',
-        category: 'industrial',
-        model: 'EG-2000',
-        brand: 'পারকিনস',
-        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
-      },
-      {
-        id: 8,
-        name: 'কন্ক্রিট মিক্সার',
-        description: 'উচ্চ মানের কন্ক্রিট মিক্সার যা নির্মাণ কাজে ব্যবহার করা হয়।',
-        category: 'construction',
-        model: 'CM-350',
-        brand: 'হিমালয়',
-        image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
-      },
-      {
         id: 9,
         name: 'ট্র্যাক্টর',
         description: 'আধুনিক ট্র্যাক্টর যা কৃষি কাজে ব্যবহার করা হয়।',
@@ -105,6 +110,184 @@ const Products: React.FC = () => {
         model: 'T-750',
         brand: 'মাহিন্দ্রা',
         image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
+      },
+      
+      // NEW PRODUCTS - Rice Mill Equipment
+      {
+        id: 10,
+        name: 'স্মল স্কেল রাইস মিল',
+        description: 'ছোট আকারের ধান ভাঙানোর মেশিন যা দৈনিক ৫০০-১০০০ কেজি ধান প্রক্রিয়াজাত করতে পারে। গ্রামীণ এলাকার জন্য আদর্শ।',
+        category: 'agricultural',
+        model: 'RM-500',
+        brand: 'সাতাইশ',
+        image: 'https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ২,৫০,০০০ - ৳ ৩,৫০,০০০'
+      },
+      {
+        id: 11,
+        name: 'মিডিয়াম ক্যাপাসিটি রাইস মিল',
+        description: 'মাঝারি আকারের ধান প্রক্রিয়াজাতকরণ মেশিন যা দৈনিক ২-৫ টন ধান প্রক্রিয়াজাত করতে পারে। উন্নত পরিষ্কারকরণ সিস্টেম সহ।',
+        category: 'agricultural',
+        model: 'RM-2000',
+        brand: 'এনজিনিয়ারিং',
+        image: 'https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ৮,০০,০০০ - ৳ ১২,০০,০০০'
+      },
+      {
+        id: 12,
+        name: 'ইন্ডাস্ট্রিয়াল রাইস মিল',
+        description: 'বৃহৎ শিল্প কারখানার জন্য উচ্চ ক্ষমতাসম্পন্ন ধান প্রক্রিয়াজাতকরণ মেশিন। দৈনিক ১০-২০ টন ধান প্রক্রিয়াজাত করতে পারে।',
+        category: 'industrial',
+        model: 'RM-10000',
+        brand: 'হেভি ইন্ডাস্ট্রিজ',
+        image: 'https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: 'যোগাযোগ করুন'
+      },
+      
+      // NEW PRODUCTS - Spray Machines
+      {
+        id: 13,
+        name: 'ম্যানুয়াল স্প্রে মেশিন',
+        description: 'হাতে চালিত কৃষি স্প্রে মেশিন যা কীটনাশক ও সার প্রয়োগের জন্য ব্যবহৃত হয়। ১৬ লিটার ট্যাংক ক্যাপাসিটি।',
+        category: 'agricultural',
+        model: 'SM-16L',
+        brand: 'এগ্রো টুলস',
+        image: 'https://images.pexels.com/photos/4110303/pexels-photo-4110303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ৩,৫০০ - ৳ ৫,০০০'
+      },
+      {
+        id: 14,
+        name: 'ব্যাটারি চালিত স্প্রে মেশিন',
+        description: 'রিচার্জেবল ব্যাটারি চালিত স্প্রে মেশিন। ২০ লিটার ক্যাপাসিটি, ৮ ঘন্টা কাজের সময়। ১ একর জমিতে একবারে স্প্রে করা যায়।',
+        category: 'agricultural',
+        model: 'BSM-20L',
+        brand: 'পাওয়ার স্প্রে',
+        image: 'https://images.pexels.com/photos/4110303/pexels-photo-4110303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ১৮,০০০ - ৳ ২৫,০০০'
+      },
+      {
+        id: 15,
+        name: 'ট্র্যাক্টর মাউন্টেড স্প্রে মেশিন',
+        description: 'ট্র্যাক্টরের সাথে সংযুক্ত করে ব্যবহারের জন্য বড় আকারের স্প্রে মেশিন। ৫০০ লিটার ট্যাংক, ১০ মিটার স্প্রে উইথ।',
+        category: 'agricultural',
+        model: 'TSM-500L',
+        brand: 'ফার্ম ইকুইপমেন্ট',
+        image: 'https://images.pexels.com/photos/4110303/pexels-photo-4110303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ১,২০,০০০ - ৳ ১,৮০,০০০'
+      },
+      
+      // NEW PRODUCTS - Mahindra Vehicles
+      {
+        id: 16,
+        name: 'মাহিন্দ্রা স্করপিও এন',
+        description: 'মাহিন্দ্রার জনপ্রিয় SUV যা শক্তিশালী পারফরমেন্স এবং আরামদায়ক যাত্রার জন্য পরিচিত। ৭ সিটার, ৪WD সুবিধা সহ।',
+        category: 'automotive',
+        model: 'Scorpio-N Z8L',
+        brand: 'মাহিন্দ্রা',
+        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ৩৫,০০,০০০ - ৳ ৪৫,০০,০০০'
+      },
+      {
+        id: 17,
+        name: 'মাহিন্দ্রা XUV700',
+        description: 'প্রিমিয়াম SUV যা অত্যাধুনিক প্রযুক্তি এবং বিলাসবহুল ফিচার সহ। ADAS প্রযুক্তি, প্যানোরামিক সানরুফ।',
+        category: 'automotive',
+        model: 'XUV700 AX7L',
+        brand: 'মাহিন্দ্রা',
+        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ৪২,০০,০০০ - ৳ ৫৮,০০,০০০'
+      },
+      {
+        id: 18,
+        name: 'মাহিন্দ্রা XUV300',
+        description: 'কমপ্যাক্ট SUV যা শহুরে ড্রাইভিং এর জন্য আদর্শ। উন্নত নিরাপত্তা ফিচার এবং ফুয়েল ইফিশিয়েন্সি।',
+        category: 'automotive',
+        model: 'XUV300 W8(O)',
+        brand: 'মাহিন্দ্রা',
+        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ২৮,০০,০০০ - ৳ ৩৫,০০,০০০'
+      },
+      {
+        id: 19,
+        name: 'মাহিন্দ্রা বোলেরো নিও',
+        description: 'রুক্ষ পথের জন্য উপযুক্ত শক্তিশালী SUV। গ্রামীণ এলাকা এবং অফ-রোড ড্রাইভিং এর জন্য আদর্শ।',
+        category: 'automotive',
+        model: 'Bolero Neo N10(O)',
+        brand: 'মাহিন্দ্রা',
+        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ২৫,০০,০০০ - ৳ ৩২,০০,০০০'
+      },
+      {
+        id: 20,
+        name: 'মাহিন্দ্রা পিকআপ ট্রাক',
+        description: 'বাণিজ্যিক ব্যবহারের জন্য শক্তিশালী পিকআপ ট্রাক। ১ টন লোড ক্যাপাসিটি, ডাবল ক্যাব সুবিধা।',
+        category: 'automotive',
+        model: 'Pickup Double Cab',
+        brand: 'মাহিন্দ্রা',
+        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ২২,০০,০০০ - ৳ ২৮,০০,০০০'
+      },
+      
+      // NEW PRODUCTS - Various Tools
+      {
+        id: 21,
+        name: 'পাওয়ার ড্রিল সেট',
+        description: 'প্রফেশনাল গ্রেড কর্ডলেস পাওয়ার ড্রিল সেট। ২০V লিথিয়াম ব্যাটারি, ৫০+ ড্রিল বিট সহ। নির্মাণ ও কারিগরি কাজের জন্য।',
+        category: 'tools',
+        model: 'PD-20V-Pro',
+        brand: 'বোশ',
+        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ১২,০০০ - ৳ ১৮,০০০'
+      },
+      {
+        id: 22,
+        name: 'এঙ্গেল গ্রাইন্ডার',
+        description: 'হেভি ডিউটি এঙ্গেল গ্রাইন্ডার যা মেটাল কাটিং, পলিশিং এবং গ্রাইন্ডিং এর জন্য ব্যবহৃত হয়। ১২৫mm ডিস্ক সাইজ।',
+        category: 'tools',
+        model: 'AG-125-HD',
+        brand: 'ম্যাকিতা',
+        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ৮,৫০০ - ৳ ১২,৫০০'
+      },
+      {
+        id: 23,
+        name: 'ওয়েল্ডিং মেশিন',
+        description: 'ইনভার্টার টেকনোলজি সহ পোর্টেবল ওয়েল্ডিং মেশিন। ২০০ এম্প ক্যাপাসিটি, ডিজিটাল ডিসপ্লে সহ।',
+        category: 'tools',
+        model: 'WM-200-INV',
+        brand: 'লিংকন',
+        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ২৫,০০০ - ৳ ৩৫,০০০'
+      },
+      {
+        id: 24,
+        name: 'হ্যান্ড টুল সেট',
+        description: 'কমপ্লিট হ্যান্ড টুল সেট যাতে রয়েছে স্ক্রু ড্রাইভার, রেঞ্চ, প্লায়ার, হ্যামার এবং অন্যান্য প্রয়োজনীয় টুলস। ১০০+ পিস।',
+        category: 'tools',
+        model: 'HTS-100-Pro',
+        brand: 'স্ট্যানলি',
+        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ১৫,০০০ - ৳ ২২,০০০'
+      },
+      {
+        id: 25,
+        name: 'চেইন স',
+        description: 'প্রফেশনাল গ্রেড চেইন স যা গাছ কাটা এবং কাঠ প্রক্রিয়াজাতকরণের জন্য ব্যবহৃত হয়। ১৮ ইঞ্চি বার, অটো অয়েলিং সিস্টেম।',
+        category: 'tools',
+        model: 'CS-18-Pro',
+        brand: 'স্টিহল',
+        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ৩৫,০০০ - ৳ ৪৫,০০০'
+      },
+      {
+        id: 26,
+        name: 'কৃষি হ্যান্ড টুলস',
+        description: 'কৃষি কাজের জন্য বিশেষভাবে তৈরি হ্যান্ড টুলস সেট। কোদাল, নিড়ানি, কাস্তে, বেলচা সহ সম্পূর্ণ সেট।',
+        category: 'agricultural',
+        model: 'AHT-Complete',
+        brand: 'ফার্ম টুলস',
+        image: 'https://images.pexels.com/photos/4110303/pexels-photo-4110303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        price: '৳ ৫,০০০ - ৳ ৮,০০০'
       }
     ];
     setProducts(productsData);
@@ -129,7 +312,9 @@ const Products: React.FC = () => {
     { id: 'all', name: 'সকল বিভাগ' },
     { id: 'construction', name: t('categories.construction') },
     { id: 'agricultural', name: t('categories.agricultural') },
-    { id: 'industrial', name: t('categories.industrial') }
+    { id: 'industrial', name: t('categories.industrial') },
+    { id: 'automotive', name: 'অটোমোটিভ' },
+    { id: 'tools', name: 'টুলস ও যন্ত্রাংশ' }
   ];
 
   return (

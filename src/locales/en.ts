@@ -14,7 +14,9 @@ export default {
     title: 'Our Product Categories',
     construction: 'Construction Machines',
     agricultural: 'Agricultural Equipment',
-    industrial: 'Factory Tools'
+    industrial: 'Factory Tools',
+    automotive: 'Automotive',
+    tools: 'Tools & Equipment'
   },
   about: {
     title: 'About Us',

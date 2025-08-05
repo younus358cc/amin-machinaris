@@ -14,7 +14,9 @@ export default {
     title: 'আমাদের পণ্যের বিভাগ',
     construction: 'নির্মাণ মেশিন',
     agricultural: 'কৃষি যন্ত্রপাতি',
-    industrial: 'ফ্যাক্টরি টুলস'
+    industrial: 'ফ্যাক্টরি টুলস',
+    automotive: 'অটোমোটিভ',
+    tools: 'টুলস ও যন্ত্রাংশ'
   },
   about: {
     title: 'আমাদের সম্পর্কে',

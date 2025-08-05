@@ -224,7 +224,7 @@ const Products: React.FC = () => {
         category: 'automotive',
         model: 'Pickup Double Cab',
         brand: 'মাহিন্দ্রা',
-        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://thumb.photo-ac.com/98/98d41d4ce0efe0daa6e2d566e35fe8cb_t.jpeg',
         price: '৳ ২২,০০,০০০ - ৳ ২৮,০০,০০০'
       },
       

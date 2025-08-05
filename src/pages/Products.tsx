@@ -214,7 +214,7 @@ const Products: React.FC = () => {
         category: 'automotive',
         model: 'Bolero Neo N10(O)',
         brand: 'মাহিন্দ্রা',
-        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://5.imimg.com/data5/SELLER/Default/2023/8/336931261/SV/TE/NX/104849289/5050d-50-hp-john-deere-tractor-1000x1000.jpeg',
         price: '৳ ২৫,০০,০০০ - ৳ ৩২,০০,০০০'
       },
       {

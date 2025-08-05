@@ -204,7 +204,7 @@ const Products: React.FC = () => {
         category: 'automotive',
         model: 'XUV300 W8(O)',
         brand: 'মাহিন্দ্রা',
-        image: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIwYl_HERIggc0wnWichiFiC6g7Adkfp-Y6Q&s',
         price: '৳ ২৮,০০,০০০ - ৳ ৩৫,০০,০০০'
       },
       {

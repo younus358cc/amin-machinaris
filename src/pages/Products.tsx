@@ -236,7 +236,7 @@ const Products: React.FC = () => {
         category: 'tools',
         model: 'PD-20V-Pro',
         brand: 'বোশ',
-        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://supertoolsbd.com/wp-content/uploads/2020/11/TOTAL-115-pcs-680w-drill-kit-300x300.jpg',
         price: '৳ ১২,০০০ - ৳ ১৮,০০০'
       },
       {

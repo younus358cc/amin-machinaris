@@ -194,7 +194,7 @@ const Products: React.FC = () => {
         category: 'automotive',
         model: 'XUV700 AX7L',
         brand: 'মাহিন্দ্রা',
-        image: https://5.imimg.com/data5/CX/SW/BS/GLADMIN-7273/mahindra-yuvo-575-di-4wd-45-hp-tractor-1500-kg-500x500.jpg',
+        image: 'https://5.imimg.com/data5/CX/SW/BS/GLADMIN-7273/mahindra-yuvo-575-di-4wd-45-hp-tractor-1500-kg-500x500.jpg',
         price: '৳ ৪২,০০,০০০ - ৳ ৫৮,০০,০০০'
       },
       {

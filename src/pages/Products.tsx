@@ -162,7 +162,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'BSM-20L',
         brand: 'পাওয়ার স্প্রে',
-        image: 'https://images.pexels.com/photos/4110303/pexels-photo-4110303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://www.gardentoolsbd.com/storage/12l-spray.png',
         price: '৳ ১৮,০০০ - ৳ ২৫,০০০'
       },
       {

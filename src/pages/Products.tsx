@@ -276,7 +276,7 @@ const Products: React.FC = () => {
         category: 'tools',
         model: 'CS-18-Pro',
         brand: 'স্টিহল',
-        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://gw.alicdn.com/imgextra/O1CN01kUxnlr1w30cGv5STo_!!6000000006251-0-yinhe.jpg_540x540.jpg',
         price: '৳ ৩৫,০০০ - ৳ ৪৫,০০০'
       },
       {

@@ -256,7 +256,7 @@ const Products: React.FC = () => {
         category: 'tools',
         model: 'WM-200-INV',
         brand: 'লিংকন',
-        image: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://www.bisongenerator.com/uploads/allimg/220125/1-16430PC5-1536.jpg',
         price: '৳ ২৫,০০০ - ৳ ৩৫,০০০'
       },
       {

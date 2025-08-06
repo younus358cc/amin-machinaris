@@ -29,6 +29,8 @@ import {
   Copy
 } from 'lucide-react';
 import InvoiceForm from '../components/InvoiceForm';
+import ClientForm from '../components/ClientForm';
+import TransactionForm from '../components/TransactionForm';
 
 interface Invoice {
   id: string;
@@ -58,6 +60,17 @@ interface Client {
   email: string;
   phone: string;
   address: string;
+  companyName?: string;
+  taxId?: string;
+  businessType?: string;
+  paymentTerms?: string;
+  preferredPaymentMethod?: string;
+  billingAddress?: string;
+  currency?: string;
+  language?: string;
+  emailNotifications?: boolean;
+  smsNotifications?: boolean;
+  createdDate?: string;
   totalInvoices: number;
   totalAmount: number;
 }
@@ -70,6 +83,7 @@ interface Transaction {
   category: string;
   date: string;
   status: 'completed' | 'pending';
+  notes?: string;
 }
 
 const Invoicing: React.FC = () => {
@@ -80,6 +94,7 @@ const Invoicing: React.FC = () => {
   const [showCreateInvoice, setShowCreateInvoice] = useState(false);
   const [showCreateClient, setShowCreateClient] = useState(false);
   const [showAddTransaction, setShowAddTransaction] = useState(false);
+  const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
@@ -126,6 +141,15 @@ const Invoicing: React.FC = () => {
         email: 'info@dhakaconst.com',
         phone: '+880 1711-123456',
         address: 'ধানমন্ডি, ঢাকা',
+        companyName: 'ঢাকা কনস্ট্রাকশন কোম্পানি লিমিটেড',
+        businessType: 'company',
+        paymentTerms: '30',
+        preferredPaymentMethod: 'bank_transfer',
+        currency: 'BDT',
+        language: 'bn',
+        emailNotifications: true,
+        smsNotifications: false,
+        createdDate: '2024-01-01',
         totalInvoices: 5,
         totalAmount: 1250000
       },
@@ -135,6 +159,15 @@ const Invoicing: React.FC = () => {
         email: 'contact@greenagro.com',
         phone: '+880 1812-654321',
         address: 'সাভার, ঢাকা',
+        companyName: 'গ্রিন এগ্রো ফার্ম',
+        businessType: 'business',
+        paymentTerms: '15',
+        preferredPaymentMethod: 'bkash',
+        currency: 'BDT',
+        language: 'bn',
+        emailNotifications: true,
+        smsNotifications: true,
+        createdDate: '2024-01-15',
         totalInvoices: 3,
         totalAmount: 450000
       }
@@ -148,7 +181,8 @@ const Invoicing: React.FC = () => {
         amount: 287500,
         category: 'Sales',
         date: '2024-01-15',
-        status: 'completed'
+        status: 'completed',
+        notes: 'Payment received via bank transfer'
       },
       {
         id: '2',
@@ -157,7 +191,8 @@ const Invoicing: React.FC = () => {
         amount: 25000,
         category: 'Operating Expenses',
         date: '2024-01-01',
-        status: 'completed'
+        status: 'completed',
+        notes: 'Monthly office rent payment'
       }
     ];
 
@@ -190,6 +225,82 @@ const Invoicing: React.FC = () => {
 
     setInvoices(prev => [newInvoice, ...prev]);
     showNotification('success', `ইনভয়েস ${invoiceData.invoiceNumber} সফলভাবে তৈরি হয়েছে!`);
+  };
+
+  // Handle new client creation
+  const handleCreateClient = (clientData: any) => {
+    const newClient: Client = {
+      id: clientData.id,
+      name: clientData.name,
+      email: clientData.email,
+      phone: clientData.phone,
+      address: clientData.address,
+      companyName: clientData.companyName,
+      taxId: clientData.taxId,
+      businessType: clientData.businessType,
+      paymentTerms: clientData.paymentTerms,
+      preferredPaymentMethod: clientData.preferredPaymentMethod,
+      billingAddress: clientData.billingAddress,
+      currency: clientData.currency,
+      language: clientData.language,
+      emailNotifications: clientData.emailNotifications,
+      smsNotifications: clientData.smsNotifications,
+      createdDate: clientData.createdDate,
+      totalInvoices: clientData.totalInvoices,
+      totalAmount: clientData.totalAmount
+    };
+
+    if (editingClient) {
+      setClients(prev => prev.map(client => client.id === editingClient.id ? newClient : client));
+      showNotification('success', `ক্লায়েন্ট ${clientData.name} সফলভাবে আপডেট হয়েছে!`);
+      setEditingClient(null);
+    } else {
+      setClients(prev => [newClient, ...prev]);
+      showNotification('success', `নতুন ক্লায়েন্ট ${clientData.name} সফলভাবে যোগ করা হয়েছে!`);
+    }
+
+    // Add invoices if any were created during client setup
+    if (clientData.invoices && clientData.invoices.length > 0) {
+      const newInvoices = clientData.invoices.map((invoice: any) => ({
+        ...invoice,
+        clientName: clientData.name,
+        clientEmail: clientData.email,
+        createdDate: new Date().toISOString().split('T')[0]
+      }));
+      setInvoices(prev => [...newInvoices, ...prev]);
+      showNotification('success', `${clientData.invoices.length}টি ইনভয়েস যোগ করা হয়েছে!`);
+    }
+  };
+
+  // Handle new transaction creation
+  const handleCreateTransaction = (transactionData: any) => {
+    const newTransaction: Transaction = {
+      id: transactionData.id,
+      type: transactionData.type,
+      description: transactionData.description,
+      amount: transactionData.amount,
+      category: transactionData.category,
+      date: transactionData.date,
+      status: transactionData.status,
+      notes: transactionData.notes
+    };
+
+    setTransactions(prev => [newTransaction, ...prev]);
+    showNotification('success', `নতুন ${transactionData.type === 'income' ? 'আয়' : 'ব্যয়'} লেনদেন যোগ করা হয়েছে!`);
+  };
+
+  // Handle client editing
+  const handleEditClient = (client: Client) => {
+    setEditingClient(client);
+    setShowCreateClient(true);
+  };
+
+  // Handle client deletion
+  const handleDeleteClient = (clientId: string) => {
+    if (window.confirm('আপনি কি নিশ্চিত যে এই ক্লায়েন্টকে মুছে ফেলতে চান?')) {
+      setClients(prev => prev.filter(client => client.id !== clientId));
+      showNotification('success', 'ক্লায়েন্ট সফলভাবে মুছে ফেলা হয়েছে!');
+    }
   };
 
   // Calculate dashboard statistics
@@ -380,12 +491,16 @@ const Invoicing: React.FC = () => {
             {invoices.slice(0, 5).map((invoice) => (
               <div key={invoice.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                 <div>
+                    onClick={() => handleEditClient(client)}
                   <p className="font-medium">{invoice.invoiceNumber}</p>
+                    title="সম্পাদনা"
                   <p className="text-sm text-gray-600">{invoice.clientName}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-semibold">{formatCurrency(invoice.totalAmount)}</p>
+                    onClick={() => handleDeleteClient(client.id)}
                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
+                    title="মুছুন"
                     {getStatusIcon(invoice.status)}
                     <span className="ml-1">{getStatusText(invoice.status)}</span>
                   </span>
@@ -799,6 +914,24 @@ const Invoicing: React.FC = () => {
           clients={clients}
         />
 
+        {/* Client Form Modal */}
+        <ClientForm
+          isOpen={showCreateClient}
+          onClose={() => {
+            setShowCreateClient(false);
+            setEditingClient(null);
+          }}
+          onSave={handleCreateClient}
+          editingClient={editingClient}
+        />
+
+        {/* Transaction Form Modal */}
+        <TransactionForm
+          isOpen={showAddTransaction}
+          onClose={() => setShowAddTransaction(false)}
+          onSave={handleCreateTransaction}
+        />
+
         {/* Notification */}
         <AnimatePresence>
           {notification && (
@@ -806,8 +939,27 @@ const Invoicing: React.FC = () => {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
+              {client.companyName && client.companyName !== client.name && (
+                <p className="text-sm text-gray-500 mb-1">{client.companyName}</p>
+              )}
               className="fixed top-24 right-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm"
             >
+              <div className="mb-4">
+                <div className="flex items-center space-x-2 text-xs text-gray-500 mb-1">
+                  <span>পেমেন্ট টার্মস:</span>
+                  <span className="font-medium">{client.paymentTerms || '30'} দিন</span>
+                </div>
+                <div className="flex items-center space-x-2 text-xs text-gray-500">
+                  <span>পছন্দের পদ্ধতি:</span>
+                  <span className="font-medium">
+                    {client.preferredPaymentMethod === 'bank_transfer' ? 'ব্যাংক ট্রান্সফার' :
+                     client.preferredPaymentMethod === 'bkash' ? 'বিকাশ' :
+                     client.preferredPaymentMethod === 'nagad' ? 'নগদ' :
+                     client.preferredPaymentMethod === 'cash' ? 'নগদ' :
+                     'অন্যান্য'}
+                  </span>
+                </div>
+              </div>
               <div className={`flex items-center space-x-2 ${
                 notification.type === 'success' ? 'text-green-600' : 'text-red-600'
               }`}>
@@ -818,6 +970,13 @@ const Invoicing: React.FC = () => {
                 )}
                 <span className="font-medium">{notification.message}</span>
               </div>
+              {client.createdDate && (
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <p className="text-xs text-gray-500">
+                    যোগ হয়েছে: {new Date(client.createdDate).toLocaleDateString('bn-BD')}
+                  </p>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

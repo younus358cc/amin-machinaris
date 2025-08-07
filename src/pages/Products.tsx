@@ -51,7 +51,7 @@ const Products: React.FC = () => {
         category: 'construction',
         model: 'CM-350',
         brand: 'হিমালয়',
-        image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://acimotors-bd.com/assets/images/product/acimixer/aci-mixer.jpg'
       },
       
       // Industrial Equipment

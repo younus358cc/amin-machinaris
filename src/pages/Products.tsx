@@ -42,7 +42,7 @@ const Products: React.FC = () => {
         category: 'construction',
         model: 'FL-320',
         brand: 'জেসিবি',
-        image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fyua.kaioumachinery.com%2Floader%2Fwheel-loader%2Ffront-end-wheel-loader.html&psig=AOvVaw2dyKwPq9TZobUhODDD6uK_&ust=1754622575337000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLCg2tDc944DFQAAAAAdAAAAABAE'
+        image: 'https://yua.litengma.com/uploads/202110433/china-front-end-bucket-2-ton-liteng-wheel43160459282.jpg'
       },
       {
         id: 8,

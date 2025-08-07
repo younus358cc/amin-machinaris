@@ -62,7 +62,7 @@ const Products: React.FC = () => {
         category: 'industrial',
         model: 'IG-5000',
         brand: 'কুমিনস',
-        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://cdn.bdstall.com/product-image/big_284628.jpg'
       },
       {
         id: 5,

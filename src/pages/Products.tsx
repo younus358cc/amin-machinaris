@@ -120,7 +120,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'RM-500',
         brand: 'সাতাইশ',
-        image: 'https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://image.made-in-china.com/202f0j00SbGWUDgHRlYT/Fmnj-Series-Small-Scale-Combined-Rice-Mill.webp',
         price: '৳ ২,৫০,০০০ - ৳ ৩,৫০,০০০'
       },
       {

@@ -130,7 +130,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'RM-2000',
         brand: 'এনজিনিয়ারিং',
-        image: 'https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQnSvR-7uPhiTHOBdBATOPiAqUE0e5FNlWA&s',
         price: '৳ ৮,০০,০০০ - ৳ ১২,০০,০০০'
       },
       {

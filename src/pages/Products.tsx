@@ -140,7 +140,7 @@ const Products: React.FC = () => {
         category: 'industrial',
         model: 'RM-10000',
         brand: 'হেভি ইন্ডাস্ট্রিজ',
-        image: 'https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDOBQBOclcumkqlzKn0PmRvXtQ34sbmLMOrA&s',
         price: 'যোগাযোগ করুন'
       },
       

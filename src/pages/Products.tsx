@@ -91,7 +91,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'AP-100',
         brand: 'যামাহা',
-        image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSkJImeCRfAyLEB8b2y1dzOckPD9DiFUxFwg&s'
       },
       {
         id: 6,

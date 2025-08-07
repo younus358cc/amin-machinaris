@@ -71,7 +71,7 @@ const Products: React.FC = () => {
         category: 'industrial',
         model: 'IC-420',
         brand: 'আটলাস কপকো',
-        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxej5WhSP6Djxax-t_d5I60DcZH54KPQ5cSA&s'
       },
       {
         id: 7,

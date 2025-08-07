@@ -31,6 +31,8 @@ import {
 import InvoiceForm from '../components/InvoiceForm';
 import ClientForm from '../components/ClientForm';
 import TransactionForm from '../components/TransactionForm';
+import InvoiceCalculationPanel from '../components/InvoiceCalculationPanel';
+import { useInvoiceCalculations } from '../hooks/useInvoiceCalculations';
 
 interface Invoice {
   id: string;
@@ -97,7 +99,11 @@ const Invoicing: React.FC = () => {
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [showCalculationPanel, setShowCalculationPanel] = useState(false);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  // Invoice calculations hook
+  const { calculateTotals, isCalculating } = useInvoiceCalculations();
 
   // Initialize with sample data
   useEffect(() => {
@@ -786,6 +792,32 @@ const Invoicing: React.FC = () => {
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">আর্থিক রিপোর্ট</h2>
       
+      {/* Invoice Calculation Panel */}
+      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">ইনভয়েস টোটাল ম্যানেজমেন্ট</h3>
+          <button
+            onClick={() => setShowCalculationPanel(!showCalculationPanel)}
+            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <Calculator size={16} />
+            <span>{showCalculationPanel ? 'প্যানেল লুকান' : 'ক্যালকুলেশন প্যানেল'}</span>
+          </button>
+        </div>
+        
+        {showCalculationPanel && (
+          <InvoiceCalculationPanel
+            onCalculationComplete={(result) => {
+              if (result.success) {
+                showNotification('success', result.message);
+              } else {
+                showNotification('error', result.message);
+              }
+            }}
+          />
+        )}
+      </div>
+      
       {/* Report Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
@@ -905,6 +937,17 @@ const Invoicing: React.FC = () => {
             {activeTab === 'reports' && <ReportsTab />}
           </motion.div>
         </AnimatePresence>
+
+        {/* Quick Calculation Panel - Always Available */}
+        <div className="fixed bottom-4 right-4 z-40">
+          <button
+            onClick={() => setShowCalculationPanel(!showCalculationPanel)}
+            className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-colors"
+            title="দ্রুত ক্যালকুলেশন"
+          >
+            <Calculator size={20} />
+          </button>
+        </div>
 
         {/* Invoice Form Modal */}
         <InvoiceForm

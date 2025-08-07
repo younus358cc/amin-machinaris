@@ -152,7 +152,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'SM-16L',
         brand: 'এগ্রো টুলস',
-        image: 'https://www.gardentoolsbd.com/storage/12l-spray.png',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPWYzHIpFSFN_mUgVWV_Ubc1Id1AaUifhlwg&s',
         price: '৳ ৩,৫০০ - ৳ ৫,০০০'
       },
       {

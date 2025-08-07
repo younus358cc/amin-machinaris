@@ -80,7 +80,7 @@ const Products: React.FC = () => {
         category: 'industrial',
         model: 'EG-2000',
         brand: 'পারকিনস',
-        image: 'https://images.pexels.com/photos/162568/generator-power-supply-emergency-162568.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://fixit.com.bd/wp-content/uploads/2023/09/pol_pl_AGREGAT-PRADOTWORCZY-INWERTOROWY-2000W-10012928_1-1-400x400.webp'
       },
       
       // Agricultural Equipment - Existing

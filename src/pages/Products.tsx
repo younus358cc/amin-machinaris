@@ -42,7 +42,7 @@ const Products: React.FC = () => {
         category: 'construction',
         model: 'FL-320',
         brand: 'জেসিবি',
-        image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fyua.kaioumachinery.com%2Floader%2Fwheel-loader%2Ffront-end-wheel-loader.html&psig=AOvVaw2dyKwPq9TZobUhODDD6uK_&ust=1754622575337000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLCg2tDc944DFQAAAAAdAAAAABAE'
       },
       {
         id: 8,

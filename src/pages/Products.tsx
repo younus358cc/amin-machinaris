@@ -100,7 +100,7 @@ const Products: React.FC = () => {
         category: 'agricultural',
         model: 'PT-500',
         brand: 'সোনালিকা',
-        image: 'https://images.pexels.com/photos/2933243/pexels-photo-2933243.jpeg?auto=compress&cs=tinysrgb&w=1600'
+        image: 'https://alim.com.bd/assets/uploads/images/336df-df-16.jpg'
       },
       {
         id: 9,

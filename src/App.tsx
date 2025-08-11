@@ -15,6 +15,7 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import ProductDetail from './pages/ProductDetail';
 import Invoicing from './pages/Invoicing';
+import InvoiceManagementDemo from './pages/InvoiceManagementDemo';
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
                   <Invoicing />
                 </ProtectedRoute>
               } 
+            />
+            <Route 
+              path="invoice-demo" 
+              element={<InvoiceManagementDemo />} 
             />
           </Route>
         </Routes>

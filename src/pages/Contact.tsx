@@ -139,7 +139,7 @@ const Contact: React.FC = () => {
                 <h3 className="text-lg font-semibold mb-4">আমাদের অবস্থান</h3>
                 <div className="h-64 bg-gray-200 rounded-lg overflow-hidden">
                   <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58403.64797307756!2d89.91105780259549!3d24.910514426110268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fc54e7e81df441%3A0x27133ed921fe73f4!2sJamalpur!5e0!3m2!1sen!2sbd!4v1700592254432!5m2!1sen!2sbd" 
+                    src="https://www.google.com/maps/place/AMIN+MACHINARIS.%E0%A6%86%E0%A6%AE%E0%A6%BF%E0%A6%A8+%E0%A6%AE%E0%A7%87%E0%A6%B6%E0%A6%BF%E0%A6%A8%E0%A6%BE%E0%A6%B0%E0%A6%BF%E0%A6%9C/@24.9822872,89.8278736,17z/data=!3m1!4b1!4m6!3m5!1s0x39fd7792758936dd:0xacd0f3a8f02fd456!8m2!3d24.9822872!4d89.8278736!16s%2Fg%2F11jmxb_vqk?entry=ttu&g_ep=EgoyMDI1MDkyMS4wIKXMDSoASAFQAw%3D%3D" 
                     width="100%" 
                     height="100%" 
                     style={{ border: 0 }} 

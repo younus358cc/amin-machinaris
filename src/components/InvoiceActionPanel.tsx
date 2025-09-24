@@ -9,8 +9,6 @@ import {
   Edit, 
   Trash2, 
   Archive, 
-  CheckCircle, 
-  XCircle, 
   MessageSquare, 
   History, 
   CreditCard, 
@@ -18,22 +16,27 @@ import {
   Eye, 
   Settings,
   AlertCircle,
-  Clock,
   DollarSign,
   Calendar,
   User
 } from 'lucide-react';
+import StatusBadge from './StatusBadge';
+import InvoiceStatusIndicator from './InvoiceStatusIndicator';
+import { InvoiceStatus } from './StatusIcon';
 
 interface Invoice {
   id: string;
   invoiceNumber: string;
   clientName: string;
   clientEmail: string;
-  status: 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
+  status: InvoiceStatus;
   totalAmount: number;
   currency: string;
   dueDate: string;
   issueDate: string;
+  paidDate?: string;
+  partialPaymentAmount?: number;
+  remindersSent?: number;
 }
 
 interface ActionConfig {
@@ -77,32 +80,32 @@ const InvoiceActionPanel: React.FC<InvoiceActionPanelProps> = ({
     {
       id: 'view-details',
       label: 'বিস্তারিত দেখুন',
-      icon: <Eye size={18} />,
+      icon: <Eye size={16} />,
       description: 'ইনভয়েসের সম্পূর্ণ বিবরণ দেখুন',
       variant: 'secondary',
       category: 'view',
       permissions: ['view_invoices'],
-      availableFor: ['draft', 'sent', 'paid', 'overdue', 'cancelled']
+      availableFor: ['draft', 'sent', 'paid', 'overdue', 'cancelled', 'partially_paid', 'processing']
     },
     {
       id: 'preview',
       label: 'প্রিভিউ',
-      icon: <FileText size={18} />,
+      icon: <FileText size={16} />,
       description: 'ইনভয়েসের প্রিন্ট প্রিভিউ দেখুন',
       variant: 'secondary',
       category: 'view',
       permissions: ['view_invoices'],
-      availableFor: ['draft', 'sent', 'paid', 'overdue', 'cancelled']
+      availableFor: ['draft', 'sent', 'paid', 'overdue', 'cancelled', 'partially_paid']
     },
     {
       id: 'payment-history',
       label: 'পেমেন্ট হিস্টরি',
-      icon: <History size={18} />,
+      icon: <History size={16} />,
       description: 'পেমেন্ট ইতিহাস দেখুন',
       variant: 'secondary',
       category: 'view',
       permissions: ['view_payments'],
-      availableFor: ['sent', 'paid', 'overdue']
+      availableFor: ['sent', 'paid', 'overdue', 'partially_paid']
     },
 
     // Edit Actions
@@ -173,32 +176,32 @@ const InvoiceActionPanel: React.FC<InvoiceActionPanelProps> = ({
     {
       id: 'mark-paid',
       label: 'পরিশোধিত চিহ্নিত করুন',
-      icon: <CheckCircle size={18} />,
+      icon: <CheckCircle size={16} />,
       description: 'ইনভয়েসটি পরিশোধিত হিসেবে চিহ্নিত করুন',
       variant: 'success',
       category: 'payment',
       permissions: ['manage_payments'],
-      availableFor: ['sent', 'overdue']
+      availableFor: ['sent', 'overdue', 'partially_paid']
     },
     {
       id: 'record-payment',
       label: 'পেমেন্ট রেকর্ড করুন',
-      icon: <CreditCard size={18} />,
+      icon: <CreditCard size={16} />,
       description: 'আংশিক বা সম্পূর্ণ পেমেন্ট রেকর্ড করুন',
       variant: 'success',
       category: 'payment',
       permissions: ['manage_payments'],
-      availableFor: ['sent', 'overdue']
+      availableFor: ['sent', 'overdue', 'partially_paid']
     },
     {
       id: 'refund',
       label: 'রিফান্ড',
-      icon: <DollarSign size={18} />,
+      icon: <DollarSign size={16} />,
       description: 'পেমেন্ট রিফান্ড প্রক্রিয়া করুন',
       variant: 'warning',
       category: 'payment',
       permissions: ['manage_refunds'],
-      availableFor: ['paid'],
+      availableFor: ['paid', 'partially_paid'],
       requiresConfirmation: true,
       confirmationMessage: 'আপনি কি নিশ্চিত যে এই পেমেন্ট রিফান্ড করতে চান?'
     },
@@ -411,6 +414,18 @@ const InvoiceActionPanel: React.FC<InvoiceActionPanelProps> = ({
           <div>
             <h3 className="font-semibold text-gray-900">{invoice.invoiceNumber}</h3>
             <p className="text-sm text-gray-600">{invoice.clientName}</p>
+            <div className="mt-2">
+              <InvoiceStatusIndicator
+                status={invoice.status}
+                dueDate={invoice.dueDate}
+                paidDate={invoice.paidDate}
+                remindersSent={invoice.remindersSent}
+                partialPaymentAmount={invoice.partialPaymentAmount}
+                totalAmount={invoice.totalAmount}
+                size="sm"
+                showDetails={true}
+              />
+            </div>
           </div>
           <div className="text-right">
             <p className="font-semibold text-gray-900">

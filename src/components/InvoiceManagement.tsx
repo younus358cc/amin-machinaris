@@ -13,10 +13,6 @@ import {
   Calendar, 
   User, 
   MoreVertical,
-  CheckCircle,
-  Clock,
-  AlertCircle,
-  XCircle,
   Filter,
   Search,
   Plus,
@@ -31,6 +27,10 @@ import {
   ChevronDown,
   X
 } from 'lucide-react';
+import StatusIcon, { InvoiceStatus } from './StatusIcon';
+import StatusBadge from './StatusBadge';
+import InvoiceStatusIndicator from './InvoiceStatusIndicator';
+import StatusSelector from './StatusSelector';
 
 interface Invoice {
   id: string;
@@ -40,7 +40,7 @@ interface Invoice {
   clientPhone?: string;
   issueDate: string;
   dueDate: string;
-  status: 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
+  status: InvoiceStatus;
   subtotal: number;
   tax: number;
   discount: number;
@@ -51,6 +51,8 @@ interface Invoice {
   paymentHistory: PaymentRecord[];
   lastSent?: string;
   remindersSent: number;
+  partialPaymentAmount?: number;
+  paidDate?: string;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -168,6 +170,7 @@ const InvoiceManagement: React.FC<InvoiceManagementProps> = ({
         tax: 12750,
         discount: 5000,
         totalAmount: 92750,
+        paidDate: '2024-02-01',
         currency: 'BDT',
         lineItems: [
           { id: '1', description: 'এগ্রিকালচারাল পাম্প', quantity: 2, rate: 42500, amount: 85000 }
@@ -201,6 +204,54 @@ const InvoiceManagement: React.FC<InvoiceManagementProps> = ({
         createdBy: 'admin',
         createdAt: '2024-01-10T11:20:00Z',
         updatedAt: '2024-01-26T16:45:00Z'
+      },
+      {
+        id: '4',
+        invoiceNumber: 'INV-2024-004',
+        clientName: 'স্মার্ট ইন্ডাস্ট্রিজ',
+        clientEmail: 'info@smartind.com',
+        clientPhone: '+880 1913-789012',
+        issueDate: '2024-01-25',
+        dueDate: '2024-02-25',
+        status: 'partially_paid',
+        subtotal: 120000,
+        tax: 18000,
+        discount: 0,
+        totalAmount: 138000,
+        partialPaymentAmount: 70000,
+        currency: 'BDT',
+        lineItems: [
+          { id: '1', description: 'কম্প্রেসার মেশিন', quantity: 1, rate: 120000, amount: 120000 }
+        ],
+        paymentHistory: [
+          { id: '1', amount: 70000, date: '2024-02-10', method: 'bKash', reference: 'BKS789012' }
+        ],
+        remindersSent: 1,
+        createdBy: 'admin',
+        createdAt: '2024-01-25T09:30:00Z',
+        updatedAt: '2024-02-10T14:20:00Z'
+      },
+      {
+        id: '5',
+        invoiceNumber: 'INV-2024-005',
+        clientName: 'নিউ এন্টারপ্রাইজ',
+        clientEmail: 'contact@newent.com',
+        issueDate: '2024-02-01',
+        dueDate: '2024-03-01',
+        status: 'draft',
+        subtotal: 95000,
+        tax: 14250,
+        discount: 0,
+        totalAmount: 109250,
+        currency: 'BDT',
+        lineItems: [
+          { id: '1', description: 'ওয়েল্ডিং মেশিন', quantity: 1, rate: 95000, amount: 95000 }
+        ],
+        paymentHistory: [],
+        remindersSent: 0,
+        createdBy: 'admin',
+        createdAt: '2024-02-01T11:00:00Z',
+        updatedAt: '2024-02-01T11:00:00Z'
       }
     ];
     setInvoices(sampleInvoices);
@@ -423,46 +474,25 @@ const InvoiceManagement: React.FC<InvoiceManagementProps> = ({
     onInvoiceAction('delete', invoice);
   };
 
+  // Handle status change
+  const handleStatusChange = (invoice: Invoice, newStatus: InvoiceStatus) => {
+    // Update the invoice status locally
+    setInvoices(prev => prev.map(inv => 
+      inv.id === invoice.id 
+        ? { ...inv, status: newStatus, updatedAt: new Date().toISOString() }
+        : inv
+    ));
+    
+    // Trigger action for external handling
+    onInvoiceAction('status-change', { ...invoice, status: newStatus });
+  };
+
   // Bulk actions
   const handleBulkAction = (action: string) => {
     const selectedInvoiceObjects = invoices.filter(inv => selectedInvoices.includes(inv.id));
     onInvoiceAction(`bulk-${action}`, selectedInvoiceObjects);
     setSelectedInvoices([]);
     setShowBulkActions(false);
-  };
-
-  // Utility functions
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'paid': return 'bg-green-100 text-green-800';
-      case 'sent': return 'bg-blue-100 text-blue-800';
-      case 'overdue': return 'bg-red-100 text-red-800';
-      case 'draft': return 'bg-gray-100 text-gray-800';
-      case 'cancelled': return 'bg-gray-100 text-gray-600';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'paid': return <CheckCircle size={16} />;
-      case 'sent': return <Clock size={16} />;
-      case 'overdue': return <AlertCircle size={16} />;
-      case 'draft': return <FileText size={16} />;
-      case 'cancelled': return <XCircle size={16} />;
-      default: return <FileText size={16} />;
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'paid': return 'পরিশোধিত';
-      case 'sent': return 'প্রেরিত';
-      case 'overdue': return 'বকেয়া';
-      case 'draft': return 'খসড়া';
-      case 'cancelled': return 'বাতিল';
-      default: return 'অজানা';
-    }
   };
 
   const formatCurrency = (amount: number, currency: string = 'BDT') => {
@@ -783,15 +813,16 @@ const InvoiceManagement: React.FC<InvoiceManagementProps> = ({
                       {formatCurrency(invoice.totalAmount, invoice.currency)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
-                        {getStatusIcon(invoice.status)}
-                        <span className="ml-1">{getStatusText(invoice.status)}</span>
-                      </span>
-                      {invoice.status === 'overdue' && (
-                        <div className="text-xs text-red-600 mt-1">
-                          {invoice.remindersSent} রিমাইন্ডার পাঠানো হয়েছে
-                        </div>
-                      )}
+                      <InvoiceStatusIndicator
+                        status={invoice.status}
+                        dueDate={invoice.dueDate}
+                        paidDate={invoice.paidDate}
+                        remindersSent={invoice.remindersSent}
+                        partialPaymentAmount={invoice.partialPaymentAmount}
+                        totalAmount={invoice.totalAmount}
+                        size="sm"
+                        showDetails={true}
+                      />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {formatDate(invoice.dueDate)}
@@ -803,6 +834,14 @@ const InvoiceManagement: React.FC<InvoiceManagementProps> = ({
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center space-x-2">
+                        {/* Status Selector */}
+                        <StatusSelector
+                          currentStatus={invoice.status}
+                          onStatusChange={(newStatus) => handleStatusChange(invoice, newStatus)}
+                          disabled={false}
+                          className="min-w-[120px]"
+                        />
+                        
                         {/* Primary Actions */}
                         {primaryActions.map((action) => (
                           <button
@@ -995,9 +1034,17 @@ const InvoiceManagement: React.FC<InvoiceManagementProps> = ({
                     </div>
                     <div>
                       <p><span className="font-semibold">স্ট্যাটাস:</span> 
-                        <span className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(selectedInvoice.status)}`}>
-                          {getStatusIcon(selectedInvoice.status)}
-                          <span className="ml-1">{getStatusText(selectedInvoice.status)}</span>
+                        <span className="ml-2">
+                          <InvoiceStatusIndicator
+                            status={selectedInvoice.status}
+                            dueDate={selectedInvoice.dueDate}
+                            paidDate={selectedInvoice.paidDate}
+                            remindersSent={selectedInvoice.remindersSent}
+                            partialPaymentAmount={selectedInvoice.partialPaymentAmount}
+                            totalAmount={selectedInvoice.totalAmount}
+                            size="md"
+                            showDetails={true}
+                          />
                         </span>
                       </p>
                     </div>

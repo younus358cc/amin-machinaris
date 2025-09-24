@@ -13,9 +13,6 @@ import {
   Edit,
   Trash2,
   Eye,
-  CheckCircle,
-  Clock,
-  AlertCircle,
   CreditCard,
   Building,
   Calculator,
@@ -26,13 +23,19 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Send,
-  Copy
+  Copy,
+  CheckCircle,
+  Clock,
+  AlertCircle
 } from 'lucide-react';
 import InvoiceForm from '../components/InvoiceForm';
 import ClientForm from '../components/ClientForm';
 import TransactionForm from '../components/TransactionForm';
 import InvoiceCalculationPanel from '../components/InvoiceCalculationPanel';
 import { useInvoiceCalculations } from '../hooks/useInvoiceCalculations';
+import StatusBadge from '../components/StatusBadge';
+import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
+import { InvoiceStatus } from '../components/StatusIcon';
 
 interface Invoice {
   id: string;
@@ -42,9 +45,12 @@ interface Invoice {
   amount: number;
   tax: number;
   totalAmount: number;
-  status: 'draft' | 'sent' | 'paid' | 'overdue';
+  status: InvoiceStatus;
   dueDate: string;
   createdDate: string;
+  paidDate?: string;
+  partialPaymentAmount?: number;
+  remindersSent?: number;
   items: InvoiceItem[];
 }
 
@@ -119,6 +125,7 @@ const Invoicing: React.FC = () => {
         status: 'paid',
         dueDate: '2024-01-15',
         createdDate: '2024-01-01',
+        paidDate: '2024-01-10',
         items: [
           { id: '1', description: 'হাইড্রোলিক এক্সকাভেটর', quantity: 1, rate: 250000, amount: 250000 }
         ]
@@ -134,8 +141,57 @@ const Invoicing: React.FC = () => {
         status: 'sent',
         dueDate: '2024-02-01',
         createdDate: '2024-01-15',
+        remindersSent: 1,
         items: [
           { id: '1', description: 'এগ্রিকালচারাল পাম্প', quantity: 2, rate: 42500, amount: 85000 }
+        ]
+      },
+      {
+        id: '3',
+        invoiceNumber: 'INV-003',
+        clientName: 'টেক মেশিনারিজ',
+        clientEmail: 'info@techmach.com',
+        amount: 200000,
+        tax: 30000,
+        totalAmount: 230000,
+        status: 'overdue',
+        dueDate: '2024-01-20',
+        createdDate: '2024-01-05',
+        remindersSent: 3,
+        items: [
+          { id: '1', description: 'ইন্ডাস্ট্রিয়াল প্রিন্টার', quantity: 1, rate: 200000, amount: 200000 }
+        ]
+      },
+      {
+        id: '4',
+        invoiceNumber: 'INV-004',
+        clientName: 'এগ্রো সলিউশন',
+        clientEmail: 'sales@agrosol.com',
+        amount: 150000,
+        tax: 22500,
+        totalAmount: 172500,
+        status: 'partially_paid',
+        dueDate: '2024-02-15',
+        createdDate: '2024-01-20',
+        partialPaymentAmount: 100000,
+        remindersSent: 1,
+        items: [
+          { id: '1', description: 'স্প্রে মেশিন', quantity: 2, rate: 75000, amount: 150000 }
+        ]
+      },
+      {
+        id: '5',
+        invoiceNumber: 'INV-005',
+        clientName: 'বিল্ডিং সাপ্লাই',
+        clientEmail: 'order@buildsupply.com',
+        amount: 75000,
+        tax: 11250,
+        totalAmount: 86250,
+        status: 'cancelled',
+        dueDate: '2024-02-10',
+        createdDate: '2024-01-25',
+        items: [
+          { id: '1', description: 'কন্ক্রিট মিক্সার', quantity: 1, rate: 75000, amount: 75000 }
         ]
       }
     ];
@@ -329,36 +385,6 @@ const Invoicing: React.FC = () => {
     }).format(amount);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'paid': return 'bg-green-100 text-green-800';
-      case 'sent': return 'bg-blue-100 text-blue-800';
-      case 'overdue': return 'bg-red-100 text-red-800';
-      case 'draft': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'paid': return <CheckCircle size={16} />;
-      case 'sent': return <Clock size={16} />;
-      case 'overdue': return <AlertCircle size={16} />;
-      case 'draft': return <FileText size={16} />;
-      default: return <FileText size={16} />;
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'paid': return 'পরিশোধিত';
-      case 'sent': return 'প্রেরিত';
-      case 'overdue': return 'বকেয়া';
-      case 'draft': return 'খসড়া';
-      default: return 'অজানা';
-    }
-  };
-
   const DashboardTab = () => (
     <div className="space-y-6">
       {/* Quick Actions */}
@@ -497,16 +523,12 @@ const Invoicing: React.FC = () => {
             {invoices.slice(0, 5).map((invoice) => (
               <div key={invoice.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                 <div>
-                    onClick={() => handleEditClient(client)}
                   <p className="font-medium">{invoice.invoiceNumber}</p>
-                    title="সম্পাদনা"
                   <p className="text-sm text-gray-600">{invoice.clientName}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-semibold">{formatCurrency(invoice.totalAmount)}</p>
-                    onClick={() => handleDeleteClient(client.id)}
                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
-                    title="মুছুন"
                     {getStatusIcon(invoice.status)}
                     <span className="ml-1">{getStatusText(invoice.status)}</span>
                   </span>
@@ -591,13 +613,24 @@ const Invoicing: React.FC = () => {
                     {formatCurrency(invoice.totalAmount)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
-                      {getStatusIcon(invoice.status)}
-                      <span className="ml-1">{getStatusText(invoice.status)}</span>
-                    </span>
+                    <InvoiceStatusIndicator
+                      status={invoice.status}
+                      dueDate={invoice.dueDate}
+                      paidDate={invoice.paidDate}
+                      remindersSent={invoice.remindersSent}
+                      partialPaymentAmount={invoice.partialPaymentAmount}
+                      totalAmount={invoice.totalAmount}
+                      size="sm"
+                      showDetails={true}
+                    />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {invoice.dueDate}
+                    {new Date(invoice.dueDate) < new Date() && invoice.status !== 'paid' && (
+                      <div className="text-xs text-red-600">
+                        {Math.ceil((new Date().getTime() - new Date(invoice.dueDate).getTime()) / (1000 * 60 * 60 * 24))} দিন বিলম্ব
+                      </div>
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center space-x-2">
@@ -658,10 +691,18 @@ const Invoicing: React.FC = () => {
                 <Building className="text-blue-600" size={24} />
               </div>
               <div className="flex items-center space-x-2">
-                <button className="text-blue-600 hover:text-blue-900">
+                <button
+                  onClick={() => handleEditClient(client)}
+                  className="text-blue-600 hover:text-blue-900"
+                  title="সম্পাদনা"
+                >
                   <Edit size={16} />
                 </button>
-                <button className="text-red-600 hover:text-red-900">
+                <button
+                  onClick={() => handleDeleteClient(client.id)}
+                  className="text-red-600 hover:text-red-900"
+                  title="মুছুন"
+                >
                   <Trash2 size={16} />
                 </button>
               </div>

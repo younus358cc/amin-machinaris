@@ -139,7 +139,7 @@ const Contact: React.FC = () => {
                 <h3 className="text-lg font-semibold mb-4">আমাদের অবস্থান</h3>
                 <div className="h-64 bg-gray-200 rounded-lg overflow-hidden">
                   <iframe 
-                    src="https://www.google.com/maps/place/AMIN+MACHINARIS.%E0%A6%86%E0%A6%AE%E0%A6%BF%E0%A6%A8+%E0%A6%AE%E0%A7%87%E0%A6%B6%E0%A6%BF%E0%A6%A8%E0%A6%BE%E0%A6%B0%E0%A6%BF%E0%A6%9C/@24.9822872,89.8278736,17z/data=!3m1!4b1!4m6!3m5!1s0x39fd7792758936dd:0xacd0f3a8f02fd456!8m2!3d24.9822872!4d89.8278736!16s%2Fg%2F11jmxb_vqk?entry=ttu&g_ep=EgoyMDI1MDkyMS4wIKXMDSoASAFQAw%3D%3D" 
+                    src="https://www.google.com/maps/place/XRJH%2BW49,+%E0%A6%AE%E0%A7%87%E0%A6%B2%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%A6%E0%A6%B9/data=!4m2!3m1!1s0x39fd7738e2ba453f:0x82dc77c3c26c34c4?sa=X&ved=1t:242&ictx=111" 
                     width="100%" 
                     height="100%" 
                     style={{ border: 0 }} 

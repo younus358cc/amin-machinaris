@@ -1,0 +1,212 @@
+/**
+ * Status Icons CSS
+ * Provides consistent styling and animations for invoice status indicators
+ */
+
+/* Base status icon styles */
+.status-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.status-icon:hover {
+  transform: scale(1.05);
+}
+
+/* Status-specific animations */
+.status-processing {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Status badge hover effects */
+.status-badge {
+  transition: all 0.2s ease-in-out;
+  cursor: default;
+}
+
+.status-badge.clickable {
+  cursor: pointer;
+}
+
+.status-badge.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Status indicator container */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Accessibility improvements */
+.status-icon[role="img"] {
+  outline: none;
+}
+
+.status-icon[role="img"]:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .status-badge {
+    border: 2px solid currentColor;
+  }
+  
+  .status-icon {
+    filter: contrast(1.2);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .status-icon,
+  .status-badge {
+    transition: none;
+  }
+  
+  .status-processing {
+    animation: none;
+  }
+  
+  .status-icon:hover,
+  .status-badge.clickable:hover {
+    transform: none;
+  }
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .status-badge {
+    filter: brightness(0.9);
+  }
+}
+
+/* Print styles */
+@media print {
+  .status-icon,
+  .status-badge {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .status-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Loading state for status changes */
+.status-updating {
+  position: relative;
+  overflow: hidden;
+}
+
+.status-updating::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Status transition animations */
+.status-transition-enter {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.status-transition-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.3s ease-out;
+}
+
+.status-transition-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.status-transition-exit-active {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease-in;
+}
+
+/* Tooltip styles for status descriptions */
+.status-tooltip {
+  position: relative;
+}
+
+.status-tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 1000;
+}
+
+.status-tooltip:hover::before {
+  opacity: 1;
+}
+
+/* Error state styling */
+.status-error {
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.status-error .status-icon {
+  color: #dc2626;
+}

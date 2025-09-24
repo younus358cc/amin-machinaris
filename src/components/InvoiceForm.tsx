@@ -13,6 +13,8 @@ import {
   Hash,
   DollarSign
 } from 'lucide-react';
+import StatusBadge from './StatusBadge';
+import { InvoiceStatus } from './StatusIcon';
 
 interface InvoiceItem {
   id: string;
@@ -38,6 +40,7 @@ interface InvoiceFormData {
   totalAmount: number;
   notes: string;
   terms: string;
+  status?: InvoiceStatus;
 }
 
 interface InvoiceFormProps {
@@ -183,7 +186,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clie
       
       const invoiceData = {
         ...formData,
-        status: action === 'send' ? 'sent' : 'draft',
+        status: (action === 'send' ? 'sent' : 'draft') as InvoiceStatus,
         createdDate: new Date().toISOString().split('T')[0]
       };
       
@@ -252,6 +255,9 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clie
               <div>
                 <h2 className="text-xl font-bold text-gray-900">নতুন ইনভয়েস তৈরি করুন</h2>
                 <p className="text-sm text-gray-600">ইনভয়েস নম্বর: {formData.invoiceNumber}</p>
+                <div className="mt-1">
+                  <StatusBadge status="draft" size="sm" />
+                </div>
               </div>
             </div>
             <button

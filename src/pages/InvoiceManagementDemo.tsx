@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import InvoiceManagement from '../components/InvoiceManagement';
 import InvoiceActionPanel from '../components/InvoiceActionPanel';
+import StatusBadge from '../components/StatusBadge';
+import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
+import StatusSelector from '../components/StatusSelector';
+import { InvoiceStatus } from '../components/StatusIcon';
 import { 
   Shield, 
   User, 
@@ -130,11 +134,12 @@ const InvoiceManagementDemo: React.FC = () => {
     invoiceNumber: 'INV-2024-001',
     clientName: 'ঢাকা কনস্ট্রাকশন কোম্পানি',
     clientEmail: 'info@dhakaconst.com',
-    status: 'sent' as const,
+    status: 'sent' as InvoiceStatus,
     totalAmount: 287500,
     currency: 'BDT',
     dueDate: '2024-02-15',
-    issueDate: '2024-01-15'
+    issueDate: '2024-01-15',
+    remindersSent: 1
   };
 
   return (
@@ -148,6 +153,79 @@ const InvoiceManagementDemo: React.FC = () => {
           <p className="text-gray-600">
             সম্পূর্ণ ইনভয়েস নিয়ন্ত্রণ ও ব্যবস্থাপনা সিস্টেমের বিস্তারিত প্রদর্শনী
           </p>
+        </div>
+
+        {/* Status Icons Demo */}
+        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-8">
+          <h3 className="text-lg font-semibold mb-4">স্ট্যাটাস আইকন ডেমো</h3>
+          
+          <div className="space-y-6">
+            {/* Status Badges */}
+            <div>
+              <h4 className="font-medium mb-3">স্ট্যাটাস ব্যাজ:</h4>
+              <div className="flex flex-wrap gap-3">
+                <StatusBadge status="draft" size="md" />
+                <StatusBadge status="sent" size="md" />
+                <StatusBadge status="paid" size="md" />
+                <StatusBadge status="overdue" size="md" />
+                <StatusBadge status="partially_paid" size="md" />
+                <StatusBadge status="cancelled" size="md" />
+                <StatusBadge status="processing" size="md" animate={true} />
+              </div>
+            </div>
+
+            {/* Status Indicators with Details */}
+            <div>
+              <h4 className="font-medium mb-3">বিস্তারিত স্ট্যাটাস ইন্ডিকেটর:</h4>
+              <div className="space-y-3">
+                <InvoiceStatusIndicator
+                  status="sent"
+                  dueDate="2024-02-15"
+                  remindersSent={1}
+                  totalAmount={287500}
+                  size="md"
+                  showDetails={true}
+                />
+                <InvoiceStatusIndicator
+                  status="paid"
+                  paidDate="2024-01-20"
+                  totalAmount={150000}
+                  size="md"
+                  showDetails={true}
+                />
+                <InvoiceStatusIndicator
+                  status="overdue"
+                  dueDate="2024-01-10"
+                  remindersSent={3}
+                  totalAmount={200000}
+                  size="md"
+                  showDetails={true}
+                />
+                <InvoiceStatusIndicator
+                  status="partially_paid"
+                  partialPaymentAmount={75000}
+                  totalAmount={150000}
+                  size="md"
+                  showDetails={true}
+                />
+              </div>
+            </div>
+
+            {/* Status Selector */}
+            <div>
+              <h4 className="font-medium mb-3">স্ট্যাটাস সিলেক্টর:</h4>
+              <div className="max-w-xs">
+                <StatusSelector
+                  currentStatus="sent"
+                  onStatusChange={(newStatus) => {
+                    console.log('Status changed to:', newStatus);
+                    alert(`স্ট্যাটাস পরিবর্তন: ${newStatus}`);
+                  }}
+                  disabled={false}
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Role Selector */}

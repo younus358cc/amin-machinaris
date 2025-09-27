@@ -9,7 +9,7 @@ import { useInvoiceCalculations } from '../hooks/useInvoiceCalculations';
 import StatusBadge from '../components/StatusBadge';
 import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
 import { InvoiceStatus } from '../components/StatusIcon';
-import { getStatusColor, getStatusText, getStatusIcon } from '../components/StatusIcon';
+import StatusIcon, { getStatusLabel } from '../components/StatusIcon';
 
 interface Invoice {
   id: string;
@@ -502,10 +502,10 @@ const Invoicing: React.FC = () => {
                 </div>
                 <div className="text-right">
                   <p className="font-semibold">{formatCurrency(invoice.totalAmount)}</p>
-                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
-                    {getStatusIcon(invoice.status)}
-                    <span className="ml-1">{getStatusText(invoice.status)}</span>
-                  </span>
+                  <div className="flex items-center justify-end">
+                    <StatusIcon status={invoice.status} size="sm" />
+                    <span className="ml-1 text-xs">{getStatusLabel(invoice.status)}</span>
+                  </div>
                 </div>
               </div>
             ))}

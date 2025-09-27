@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Award, Users, Globe, Shield } from 'lucide-react';
+import BusinessOwnerButton from '../components/BusinessOwnerButton';
 
 const About: React.FC = () => {
   const { t } = useTranslation();
@@ -36,6 +37,14 @@ const About: React.FC = () => {
       {/* Our History */}
       <section className="py-16">
         <div className="container mx-auto px-4">
+          {/* Business Owner Section */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-center mb-8">আমাদের নেতৃত্ব</h2>
+            <div className="max-w-md mx-auto">
+              <BusinessOwnerButton />
+            </div>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <motion.img 

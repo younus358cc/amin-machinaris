@@ -36,6 +36,7 @@ import { useInvoiceCalculations } from '../hooks/useInvoiceCalculations';
 import StatusBadge from '../components/StatusBadge';
 import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
 import { InvoiceStatus } from '../components/StatusIcon';
+import { getStatusColor, getStatusText, getStatusIcon } from '../components/StatusIcon';
 
 interface Invoice {
   id: string;

@@ -1,33 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Plus, 
-  FileText, 
-  DollarSign, 
-  TrendingUp, 
-  Users, 
-  Calendar,
-  Search,
-  Filter,
-  Download,
-  Edit,
-  Trash2,
-  Eye,
-  CreditCard,
-  Building,
-  Calculator,
-  BarChart3,
-  PieChart,
-  Receipt,
-  Banknote,
-  ArrowUpRight,
-  ArrowDownRight,
-  Send,
-  Copy,
-  CheckCircle,
-  Clock,
-  AlertCircle
-} from 'lucide-react';
+import { Plus, FileText, DollarSign, TrendingUp, Users, Calendar, Search, Filter, Download, CreditCard as Edit, Trash2, Eye, CreditCard, Building, Calculator, BarChart3, PieChart, Receipt, Banknote, ArrowUpRight, ArrowDownRight, Send, Copy, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import InvoiceForm from '../components/InvoiceForm';
 import ClientForm from '../components/ClientForm';
 import TransactionForm from '../components/TransactionForm';

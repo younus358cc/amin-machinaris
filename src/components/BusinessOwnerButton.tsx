@@ -14,7 +14,7 @@ const BusinessOwnerButton: React.FC<BusinessOwnerButtonProps> = ({
   const [showDetails, setShowDetails] = useState(false);
 
   const ownerData = {
-    name: 'মোহাম্মদ আমিন উল্লাহ',
+    name: 'মোঃ বজলুর রহমান (আমিন)',
     position: 'প্রতিষ্ঠাতা ও ব্যবস্থাপনা পরিচালক',
     experience: '২৫+ বছর',
     specialization: 'শিল্প যন্ত্রপাতি ও মেশিনারি',

@@ -86,7 +86,7 @@ const BusinessOwnerButton: React.FC<BusinessOwnerButtonProps> = ({
               >
                 <img
                   src={ownerData.images.primary}
-                  alt="মোহাম্মদ আমিন উল্লাহ - প্রতিষ্ঠাতা"
+                  alt="মোঃ বজলুর রহমান (আমিন) - প্রতিষ্ঠাতা"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />

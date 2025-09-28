@@ -18,6 +18,8 @@ import {
   AlertCircle, 
   CheckCircle 
 } from 'lucide-react';
+import PreviewManager from './PreviewManager';
+import { PreviewContent } from '../hooks/useLivePreview';
 
 interface ClientFormData {
   // Personal Information
@@ -77,6 +79,8 @@ const ClientForm: React.FC<ClientFormProps> = ({ isOpen, onClose, onSave, editin
   const [activeStep, setActiveStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [showLivePreview, setShowLivePreview] = useState(true);
+  const [previewContent, setPreviewContent] = useState<PreviewContent | null>(null);
   
   const [formData, setFormData] = useState<ClientFormData>({
     // Personal Information
@@ -105,6 +109,17 @@ const ClientForm: React.FC<ClientFormProps> = ({ isOpen, onClose, onSave, editin
     invoices: editingClient?.invoices || []
   });
 
+  // Update live preview when form data changes
+  React.useEffect(() => {
+    if (formData.name || formData.email) {
+      setPreviewContent({
+        type: 'client',
+        data: formData,
+        timestamp: new Date().toISOString(),
+        version: 1
+      });
+    }
+  }, [formData]);
   const steps = [
     { id: 1, title: 'ব্যক্তিগত তথ্য', icon: User },
     { id: 2, title: 'ব্যবসায়িক তথ্য', icon: Building },
@@ -820,9 +835,33 @@ const ClientForm: React.FC<ClientFormProps> = ({ isOpen, onClose, onSave, editin
 
           {/* Content */}
           <div className="overflow-y-auto max-h-[calc(90vh-200px)]">
-            <div className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+              {/* Form Content */}
+              <div>
               {renderStepContent()}
             </div>
+            
+            {/* Live Preview */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">ক্লায়েন্ট প্রিভিউ</h3>
+                <button
+                  onClick={() => setShowLivePreview(!showLivePreview)}
+                  className="text-blue-600 hover:text-blue-800 text-sm"
+                >
+                  {showLivePreview ? 'লুকান' : 'দেখান'}
+                </button>
+              </div>
+              
+              {showLivePreview && (
+                <PreviewManager
+                  initialContent={previewContent}
+                  autoRefresh={false}
+                  className="h-96"
+                />
+              )}
+            </div>
+          </div>
           </div>
 
           {/* Footer */}

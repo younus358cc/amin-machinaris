@@ -6,6 +6,9 @@ import StatusBadge from '../components/StatusBadge';
 import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
 import StatusSelector from '../components/StatusSelector';
 import { InvoiceStatus } from '../components/StatusIcon';
+import PreviewManager from '../components/PreviewManager';
+import PreviewDebugger from '../components/PreviewDebugger';
+import { PreviewContent } from '../hooks/useLivePreview';
 import { 
   Shield, 
   User, 
@@ -33,6 +36,9 @@ const InvoiceManagementDemo: React.FC = () => {
   const [actionPanelLayout, setActionPanelLayout] = useState<'horizontal' | 'vertical' | 'grid'>('horizontal');
   const [groupByCategory, setGroupByCategory] = useState(false);
   const [showLabels, setShowLabels] = useState(true);
+  const [showPreviewDemo, setShowPreviewDemo] = useState(false);
+  const [showDebugger, setShowDebugger] = useState(false);
+  const [previewContent, setPreviewContent] = useState<PreviewContent | null>(null);
 
   // Define user roles and permissions
   const userRoles: UserRole[] = [
@@ -142,6 +148,10 @@ const InvoiceManagementDemo: React.FC = () => {
     remindersSent: 1
   };
 
+  const handleTestPreview = (content: PreviewContent) => {
+    setPreviewContent(content);
+    setShowPreviewDemo(true);
+  };
   return (
     <div className="min-h-screen bg-gray-50 pt-32 pb-16">
       <div className="container mx-auto px-4">
@@ -337,8 +347,45 @@ const InvoiceManagementDemo: React.FC = () => {
             )}
           </div>
 
-          {/* Feature Overview */}
+          {/* Live Preview Demo */}
           <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">লাইভ প্রিভিউ ডেমো</h3>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setShowDebugger(true)}
+                  className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded text-sm transition-colors"
+                >
+                  <Bug size={14} />
+                  <span>Debug</span>
+                </button>
+                <button
+                  onClick={() => setShowPreviewDemo(!showPreviewDemo)}
+                  className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-sm transition-colors"
+                >
+                  <Eye size={14} />
+                  <span>{showPreviewDemo ? 'লুকান' : 'দেখান'}</span>
+                </button>
+              </div>
+            </div>
+
+            {showPreviewDemo ? (
+              <PreviewManager
+                initialContent={previewContent}
+                autoRefresh={true}
+                refreshInterval={5000}
+              />
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Eye className="mx-auto mb-2" size={32} />
+                <p>প্রিভিউ দেখতে "দেখান" বাটনে ক্লিক করুন</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Feature Overview */}
+        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-8">
             <h3 className="text-lg font-semibold mb-4">সিস্টেম বৈশিষ্ট্য</h3>
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
@@ -390,7 +437,6 @@ const InvoiceManagementDemo: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
 
         {/* Main Invoice Management System */}
         <InvoiceManagement
@@ -449,6 +495,14 @@ const InvoiceManagementDemo: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Preview Debugger */}
+      <PreviewDebugger
+        isOpen={showDebugger}
+        onClose={() => setShowDebugger(false)}
+        onTestContent={handleTestPreview}
+        currentContent={previewContent}
+      />
     </div>
   );
 };

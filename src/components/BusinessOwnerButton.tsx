@@ -18,7 +18,7 @@ const BusinessOwnerButton: React.FC<BusinessOwnerButtonProps> = ({
     position: 'প্রতিষ্ঠাতা ও ব্যবস্থাপনা পরিচালক',
     experience: '২৫+ বছর',
     specialization: 'শিল্প যন্ত্রপাতি ও মেশিনারি',
-    education: 'মেকানিক্যাল ইঞ্জিনিয়ারিং, বুয়েট',
+    education: 'মেকানিক্যাল ইঞ্জিনিয়ারিং, বুয়েট,শিক্ষক',
     achievements: [
       'বাংলাদেশ মেশিনারি অ্যাসোসিয়েশনের সদস্য',
       'ISO 9001:2015 সার্টিফাইড কোম্পানি প্রতিষ্ঠা',

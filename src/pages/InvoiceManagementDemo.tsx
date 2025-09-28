@@ -9,18 +9,7 @@ import { InvoiceStatus } from '../components/StatusIcon';
 import PreviewManager from '../components/PreviewManager';
 import PreviewDebugger from '../components/PreviewDebugger';
 import { PreviewContent } from '../hooks/useLivePreview';
-import { 
-  Shield, 
-  User, 
-  Settings, 
-  Eye, 
-  Edit, 
-  Send, 
-  Download, 
-  CreditCard,
-  ToggleLeft,
-  ToggleRight
-} from 'lucide-react';
+import { Shield, User, Settings, Eye, CreditCard as Edit, Send, Download, CreditCard, ToggleLeft, ToggleRight } from 'lucide-react';
 
 interface UserRole {
   id: string;

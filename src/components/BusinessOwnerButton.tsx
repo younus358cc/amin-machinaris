@@ -33,7 +33,7 @@ const BusinessOwnerButton: React.FC<BusinessOwnerButtonProps> = ({
     },
     images: {
       primary: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400',
-      secondary: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=400'
+      secondary: 'https://www.facebook.com/photo/?fbid=122121618692931760&set=a.122109066800931760'
     }
   };
 

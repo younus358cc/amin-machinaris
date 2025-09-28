@@ -6,6 +6,8 @@ import ClientForm from '../components/ClientForm';
 import TransactionForm from '../components/TransactionForm';
 import InvoiceCalculationPanel from '../components/InvoiceCalculationPanel';
 import { useInvoiceCalculations } from '../hooks/useInvoiceCalculations';
+import PreviewManager from '../components/PreviewManager';
+import { PreviewContent } from '../hooks/useLivePreview';
 import StatusBadge from '../components/StatusBadge';
 import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
 import { InvoiceStatus } from '../components/StatusIcon';
@@ -81,6 +83,8 @@ const Invoicing: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [showCalculationPanel, setShowCalculationPanel] = useState(false);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [previewContent, setPreviewContent] = useState<PreviewContent | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   // Invoice calculations hook
   const { calculateTotals, isCalculating } = useInvoiceCalculations();
@@ -260,6 +264,15 @@ const Invoicing: React.FC = () => {
     };
 
     setInvoices(prev => [newInvoice, ...prev]);
+    
+    // Update live preview with new invoice
+    setPreviewContent({
+      type: 'invoice',
+      data: newInvoice,
+      timestamp: new Date().toISOString(),
+      version: 1
+    });
+    
     showNotification('success', `ইনভয়েস ${invoiceData.invoiceNumber} সফলভাবে তৈরি হয়েছে!`);
   };
 
@@ -295,6 +308,14 @@ const Invoicing: React.FC = () => {
       showNotification('success', `নতুন ক্লায়েন্ট ${clientData.name} সফলভাবে যোগ করা হয়েছে!`);
     }
 
+    // Update live preview with new client
+    setPreviewContent({
+      type: 'client',
+      data: newClient,
+      timestamp: new Date().toISOString(),
+      version: 1
+    });
+
     // Add invoices if any were created during client setup
     if (clientData.invoices && clientData.invoices.length > 0) {
       const newInvoices = clientData.invoices.map((invoice: any) => ({
@@ -323,6 +344,14 @@ const Invoicing: React.FC = () => {
 
     setTransactions(prev => [newTransaction, ...prev]);
     showNotification('success', `নতুন ${transactionData.type === 'income' ? 'আয়' : 'ব্যয়'} লেনদেন যোগ করা হয়েছে!`);
+    
+    // Update live preview with new transaction
+    setPreviewContent({
+      type: 'transaction',
+      data: newTransaction,
+      timestamp: new Date().toISOString(),
+      version: 1
+    });
   };
 
   // Handle client editing
@@ -504,517 +533,4 @@ const Invoicing: React.FC = () => {
                   <p className="font-semibold">{formatCurrency(invoice.totalAmount)}</p>
                   <div className="flex items-center justify-end">
                     <StatusIcon status={invoice.status} size="sm" />
-                    <span className="ml-1 text-xs">{getStatusLabel(invoice.status)}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const InvoicesTab = () => (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-2xl font-bold">ইনভয়েস ম্যানেজমেন্ট</h2>
-        <button
-          onClick={() => setShowCreateInvoice(true)}
-          className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          <Plus size={20} />
-          <span>নতুন ইনভয়েস</span>
-        </button>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="ইনভয়েস বা ক্লায়েন্ট খুঁজুন..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-          />
-        </div>
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-        >
-          <option value="all">সকল স্ট্যাটাস</option>
-          <option value="draft">খসড়া</option>
-          <option value="sent">প্রেরিত</option>
-          <option value="paid">পরিশোধিত</option>
-          <option value="overdue">বকেয়া</option>
-        </select>
-      </div>
-
-      {/* Invoices Table */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ইনভয়েস</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ক্লায়েন্ট</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">পরিমাণ</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">স্ট্যাটাস</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">নির্ধারিত তারিখ</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">অ্যাকশন</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {invoices.map((invoice) => (
-                <tr key={invoice.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">{invoice.invoiceNumber}</div>
-                      <div className="text-sm text-gray-500">{invoice.createdDate}</div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">{invoice.clientName}</div>
-                      <div className="text-sm text-gray-500">{invoice.clientEmail}</div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {formatCurrency(invoice.totalAmount)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <InvoiceStatusIndicator
-                      status={invoice.status}
-                      dueDate={invoice.dueDate}
-                      paidDate={invoice.paidDate}
-                      remindersSent={invoice.remindersSent}
-                      partialPaymentAmount={invoice.partialPaymentAmount}
-                      totalAmount={invoice.totalAmount}
-                      size="sm"
-                      showDetails={true}
-                    />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {invoice.dueDate}
-                    {new Date(invoice.dueDate) < new Date() && invoice.status !== 'paid' && (
-                      <div className="text-xs text-red-600">
-                        {Math.ceil((new Date().getTime() - new Date(invoice.dueDate).getTime()) / (1000 * 60 * 60 * 24))} দিন বিলম্ব
-                      </div>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex items-center space-x-2">
-                      <button className="text-blue-600 hover:text-blue-900" title="দেখুন">
-                        <Eye size={16} />
-                      </button>
-                      <button className="text-green-600 hover:text-green-900" title="সম্পাদনা">
-                        <Edit size={16} />
-                      </button>
-                      <button className="text-purple-600 hover:text-purple-900" title="কপি">
-                        <Copy size={16} />
-                      </button>
-                      <button className="text-orange-600 hover:text-orange-900" title="পাঠান">
-                        <Send size={16} />
-                      </button>
-                      <button className="text-gray-600 hover:text-gray-900" title="ডাউনলোড">
-                        <Download size={16} />
-                      </button>
-                      <button className="text-red-600 hover:text-red-900" title="মুছুন">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-
-  const ClientsTab = () => (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-2xl font-bold">ক্লায়েন্ট ম্যানেজমেন্ট</h2>
-        <button
-          onClick={() => setShowCreateClient(true)}
-          className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          <Plus size={20} />
-          <span>নতুন ক্লায়েন্ট</span>
-        </button>
-      </div>
-
-      {/* Clients Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {clients.map((client) => (
-          <motion.div
-            key={client.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white p-6 rounded-lg shadow-md border border-gray-200"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Building className="text-blue-600" size={24} />
-              </div>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => handleEditClient(client)}
-                  className="text-blue-600 hover:text-blue-900"
-                  title="সম্পাদনা"
-                >
-                  <Edit size={16} />
-                </button>
-                <button
-                  onClick={() => handleDeleteClient(client.id)}
-                  className="text-red-600 hover:text-red-900"
-                  title="মুছুন"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
-            </div>
-            <h3 className="text-lg font-semibold mb-2">{client.name}</h3>
-            <p className="text-sm text-gray-600 mb-1">{client.email}</p>
-            <p className="text-sm text-gray-600 mb-4">{client.phone}</p>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <p className="text-gray-500">মোট ইনভয়েস</p>
-                <p className="font-semibold">{client.totalInvoices}</p>
-              </div>
-              <div>
-                <p className="text-gray-500">মোট পরিমাণ</p>
-                <p className="font-semibold">{formatCurrency(client.totalAmount)}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const TransactionsTab = () => (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-2xl font-bold">লেনদেন ট্র্যাকিং</h2>
-        <button
-          onClick={() => setShowAddTransaction(true)}
-          className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          <Plus size={20} />
-          <span>নতুন লেনদেন</span>
-        </button>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">মোট আয়</p>
-              <p className="text-2xl font-bold text-green-600">{formatCurrency(dashboardStats.monthlyIncome)}</p>
-            </div>
-            <ArrowUpRight className="text-green-600" size={24} />
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">মোট খরচ</p>
-              <p className="text-2xl font-bold text-red-600">{formatCurrency(dashboardStats.monthlyExpenses)}</p>
-            </div>
-            <ArrowDownRight className="text-red-600" size={24} />
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">নেট লাভ</p>
-              <p className="text-2xl font-bold text-blue-600">
-                {formatCurrency(dashboardStats.monthlyIncome - dashboardStats.monthlyExpenses)}
-              </p>
-            </div>
-            <Calculator className="text-blue-600" size={24} />
-          </div>
-        </div>
-      </div>
-
-      {/* Transactions Table */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">তারিখ</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">বিবরণ</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ক্যাটেগরি</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">টাইপ</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">পরিমাণ</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">স্ট্যাটাস</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {transactions.map((transaction) => (
-                <tr key={transaction.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {transaction.date}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {transaction.description}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {transaction.category}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      transaction.type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
-                      {transaction.type === 'income' ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
-                      <span className="ml-1">{transaction.type === 'income' ? 'আয়' : 'খরচ'}</span>
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <span className={transaction.type === 'income' ? 'text-green-600' : 'text-red-600'}>
-                      {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      transaction.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {transaction.status === 'completed' ? <CheckCircle size={12} /> : <Clock size={12} />}
-                      <span className="ml-1">{transaction.status === 'completed' ? 'সম্পন্ন' : 'অপেক্ষমাণ'}</span>
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-
-  const ReportsTab = () => (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">আর্থিক রিপোর্ট</h2>
-      
-      {/* Invoice Calculation Panel */}
-      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">ইনভয়েস টোটাল ম্যানেজমেন্ট</h3>
-          <button
-            onClick={() => setShowCalculationPanel(!showCalculationPanel)}
-            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <Calculator size={16} />
-            <span>{showCalculationPanel ? 'প্যানেল লুকান' : 'ক্যালকুলেশন প্যানেল'}</span>
-          </button>
-        </div>
-        
-        {showCalculationPanel && (
-          <InvoiceCalculationPanel
-            onCalculationComplete={(result) => {
-              if (result.success) {
-                showNotification('success', result.message);
-              } else {
-                showNotification('error', result.message);
-              }
-            }}
-          />
-        )}
-      </div>
-      
-      {/* Report Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">আয়-ব্যয় রিপোর্ট</h3>
-            <BarChart3 className="text-blue-600" size={24} />
-          </div>
-          <p className="text-gray-600 mb-4">মাসিক আয় এবং ব্যয়ের বিস্তারিত বিশ্লেষণ</p>
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-            রিপোর্ট দেখুন
-          </button>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">ট্যাক্স রিপোর্ট</h3>
-            <Receipt className="text-green-600" size={24} />
-          </div>
-          <p className="text-gray-600 mb-4">ভ্যাট এবং ট্যাক্স গণনার বিস্তারিত</p>
-          <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors">
-            রিপোর্ট দেখুন
-          </button>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">ক্লায়েন্ট রিপোর্ট</h3>
-            <PieChart className="text-purple-600" size={24} />
-          </div>
-          <p className="text-gray-600 mb-4">ক্লায়েন্ট-ভিত্তিক বিক্রয় বিশ্লেষণ</p>
-          <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg transition-colors">
-            রিপোর্ট দেখুন
-          </button>
-        </div>
-      </div>
-
-      {/* Integration Options */}
-      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-        <h3 className="text-lg font-semibold mb-4">ইন্টিগ্রেশন অপশন</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="text-center p-4 border border-gray-200 rounded-lg">
-            <CreditCard className="mx-auto mb-2 text-blue-600" size={32} />
-            <h4 className="font-medium">পেমেন্ট গেটওয়ে</h4>
-            <p className="text-sm text-gray-600">bKash, Nagad, DBBL</p>
-          </div>
-          <div className="text-center p-4 border border-gray-200 rounded-lg">
-            <Building className="mx-auto mb-2 text-green-600" size={32} />
-            <h4 className="font-medium">ব্যাংকিং</h4>
-            <p className="text-sm text-gray-600">সকল প্রধান ব্যাংক</p>
-          </div>
-          <div className="text-center p-4 border border-gray-200 rounded-lg">
-            <Calculator className="mx-auto mb-2 text-purple-600" size={32} />
-            <h4 className="font-medium">অ্যাকাউন্টিং</h4>
-            <p className="text-sm text-gray-600">QuickBooks, Tally</p>
-          </div>
-          <div className="text-center p-4 border border-gray-200 rounded-lg">
-            <FileText className="mx-auto mb-2 text-orange-600" size={32} />
-            <h4 className="font-medium">ডকুমেন্ট</h4>
-            <p className="text-sm text-gray-600">Google Drive, Dropbox</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-gray-50 pt-32 pb-16">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">ইনভয়েসিং ও অ্যাকাউন্টিং সিস্টেম</h1>
-          <p className="text-gray-600">আপনার ব্যবসার সম্পূর্ণ আর্থিক ব্যবস্থাপনা</p>
-        </div>
-
-        {/* Navigation Tabs */}
-        <div className="mb-8">
-          <nav className="flex space-x-8 border-b border-gray-200">
-            {[
-              { id: 'dashboard', label: 'ড্যাশবোর্ড', icon: BarChart3 },
-              { id: 'invoices', label: 'ইনভয়েস', icon: FileText },
-              { id: 'clients', label: 'ক্লায়েন্ট', icon: Users },
-              { id: 'transactions', label: 'লেনদেন', icon: DollarSign },
-              { id: 'reports', label: 'রিপোর্ট', icon: TrendingUp }
-            ].map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === tab.id
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  <Icon size={20} />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === 'dashboard' && <DashboardTab />}
-            {activeTab === 'invoices' && <InvoicesTab />}
-            {activeTab === 'clients' && <ClientsTab />}
-            {activeTab === 'transactions' && <TransactionsTab />}
-            {activeTab === 'reports' && <ReportsTab />}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Quick Calculation Panel - Always Available */}
-        <div className="fixed bottom-4 right-4 z-40">
-          <button
-            onClick={() => setShowCalculationPanel(!showCalculationPanel)}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-colors"
-            title="দ্রুত ক্যালকুলেশন"
-          >
-            <Calculator size={20} />
-          </button>
-        </div>
-
-        {/* Invoice Form Modal */}
-        <InvoiceForm
-          isOpen={showCreateInvoice}
-          onClose={() => setShowCreateInvoice(false)}
-          onSave={handleCreateInvoice}
-          clients={clients}
-        />
-
-        {/* Client Form Modal */}
-        <ClientForm
-          isOpen={showCreateClient}
-          onClose={() => {
-            setShowCreateClient(false);
-            setEditingClient(null);
-          }}
-          onSave={handleCreateClient}
-          editingClient={editingClient}
-        />
-
-        {/* Transaction Form Modal */}
-        <TransactionForm
-          isOpen={showAddTransaction}
-          onClose={() => setShowAddTransaction(false)}
-          onSave={handleCreateTransaction}
-        />
-
-        {/* Notification */}
-        <AnimatePresence>
-          {notification && (
-            <motion.div
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              className="fixed top-24 right-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm"
-            >
-              <div className={`flex items-center space-x-2 ${
-                notification.type === 'success' ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {notification.type === 'success' ? (
-                  <CheckCircle size={20} />
-                ) : (
-                  <AlertCircle size={20} />
-                )}
-                <span className="font-medium">{notification.message}</span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-};
-
-export default Invoicing;
+                    <span className="ml-1 text-xs">{getStatusLabel

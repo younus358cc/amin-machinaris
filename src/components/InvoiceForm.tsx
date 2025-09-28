@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import { InvoiceStatus } from './StatusIcon';
+import PreviewManager from './PreviewManager';
+import { PreviewContent } from '../hooks/useLivePreview';
 
 interface InvoiceItem {
   id: string;
@@ -72,6 +74,8 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clie
   const [selectedClient, setSelectedClient] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [showLivePreview, setShowLivePreview] = useState(true);
+  const [previewContent, setPreviewContent] = useState<PreviewContent | null>(null);
 
   // Calculate totals whenever items, tax rate, or discount changes
   React.useEffect(() => {
@@ -86,6 +90,31 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clie
       totalAmount
     }));
   }, [formData.items, formData.taxRate, formData.discount]);
+  
+  // Update live preview when form data changes
+  React.useEffect(() => {
+    if (formData.clientName || formData.items.some(item => item.description)) {
+      setPreviewContent({
+        type: 'invoice',
+        data: {
+          invoiceNumber: formData.invoiceNumber,
+          clientName: formData.clientName,
+          clientEmail: formData.clientEmail,
+          clientPhone: formData.clientPhone,
+          issueDate: formData.invoiceDate,
+          dueDate: formData.dueDate,
+          items: formData.items,
+          subtotal: formData.subtotal,
+          tax: formData.taxAmount,
+          totalAmount: formData.totalAmount,
+          notes: formData.notes,
+          terms: formData.terms
+        },
+        timestamp: new Date().toISOString(),
+        version: 1
+      });
+    }
+  }, [formData]);
 
   const handleClientSelect = (clientId: string) => {
     const client = clients.find(c => c.id === clientId);
@@ -270,7 +299,9 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clie
 
           {/* Form Content */}
           <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
-            <div className="p-6 space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+              {/* Form Fields */}
+              <div className="space-y-8">
               {/* Client Information */}
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h3 className="text-lg font-semibold mb-4 flex items-center">
@@ -612,6 +643,28 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clie
                 </div>
               </div>
             </div>
+            
+            {/* Live Preview Panel */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">লাইভ প্রিভিউ</h3>
+                <button
+                  onClick={() => setShowLivePreview(!showLivePreview)}
+                  className="text-blue-600 hover:text-blue-800 text-sm"
+                >
+                  {showLivePreview ? 'লুকান' : 'দেখান'}
+                </button>
+              </div>
+              
+              {showLivePreview && (
+                <PreviewManager
+                  initialContent={previewContent}
+                  autoRefresh={false}
+                  className="h-96"
+                />
+              )}
+            </div>
+          </div>
           </div>
 
           {/* Footer */}

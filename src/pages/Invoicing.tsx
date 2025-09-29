@@ -533,4 +533,468 @@ const Invoicing: React.FC = () => {
                   <p className="font-semibold">{formatCurrency(invoice.totalAmount)}</p>
                   <div className="flex items-center justify-end">
                     <StatusIcon status={invoice.status} size="sm" />
-                    <span className="ml-1 text-xs">{getStatusLabel
+                    <span className="ml-1 text-xs">{getStatusLabel(invoice.status)}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const InvoicesTab = () => {
+    const filteredInvoices = invoices.filter(invoice => {
+      const matchesSearch = invoice.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           invoice.clientName.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus = filterStatus === 'all' || invoice.status === filterStatus;
+      return matchesSearch && matchesStatus;
+    });
+
+    return (
+      <div className="space-y-6">
+        {/* Search and Filter */}
+        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="ইনভয়েস বা ক্লায়েন্ট খুঁজুন..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div className="relative">
+                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                >
+                  <option value="all">সব স্ট্যাটাস</option>
+                  <option value="draft">খসড়া</option>
+                  <option value="sent">পাঠানো</option>
+                  <option value="paid">পরিশোধিত</option>
+                  <option value="overdue">বকেয়া</option>
+                  <option value="cancelled">বাতিল</option>
+                </select>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowCreateInvoice(true)}
+              className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              <Plus size={20} />
+              <span>নতুন ইনভয়েস</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Invoices List */}
+        <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ইনভয়েস
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ক্লায়েন্ট
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    পরিমাণ
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    স্ট্যাটাস
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    নির্ধারিত তারিখ
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    অ্যাকশন
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredInvoices.map((invoice) => (
+                  <tr key={invoice.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <FileText className="text-gray-400 mr-2" size={16} />
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">{invoice.invoiceNumber}</div>
+                          <div className="text-sm text-gray-500">{invoice.createdDate}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-gray-900">{invoice.clientName}</div>
+                      <div className="text-sm text-gray-500">{invoice.clientEmail}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {formatCurrency(invoice.totalAmount)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <StatusBadge status={invoice.status} />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {invoice.dueDate}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div className="flex items-center space-x-2">
+                        <button className="text-blue-600 hover:text-blue-900">
+                          <Eye size={16} />
+                        </button>
+                        <button className="text-green-600 hover:text-green-900">
+                          <Edit size={16} />
+                        </button>
+                        <button className="text-red-600 hover:text-red-900">
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const ClientsTab = () => (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+          <h2 className="text-xl font-semibold">ক্লায়েন্ট ম্যানেজমেন্ট</h2>
+          <button
+            onClick={() => setShowCreateClient(true)}
+            className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <Plus size={20} />
+            <span>নতুন ক্লায়েন্ট</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Clients Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {clients.map((client) => (
+          <motion.div
+            key={client.id}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow"
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Building className="text-blue-600" size={24} />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">{client.name}</h3>
+                  <p className="text-sm text-gray-600">{client.email}</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => handleEditClient(client)}
+                  className="text-blue-600 hover:text-blue-800"
+                >
+                  <Edit size={16} />
+                </button>
+                <button
+                  onClick={() => handleDeleteClient(client.id)}
+                  className="text-red-600 hover:text-red-800"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+            
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">মোট ইনভয়েস:</span>
+                <span className="font-medium">{client.totalInvoices}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">মোট পরিমাণ:</span>
+                <span className="font-medium">{formatCurrency(client.totalAmount)}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">ফোন:</span>
+                <span className="font-medium">{client.phone}</span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const TransactionsTab = () => (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+          <h2 className="text-xl font-semibold">লেনদেন ইতিহাস</h2>
+          <button
+            onClick={() => setShowAddTransaction(true)}
+            className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <Plus size={20} />
+            <span>নতুন লেনদেন</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Transactions List */}
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  তারিখ
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  বিবরণ
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ধরন
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  পরিমাণ
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  স্ট্যাটাস
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {transactions.map((transaction) => (
+                <tr key={transaction.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {transaction.date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">{transaction.description}</div>
+                    <div className="text-sm text-gray-500">{transaction.category}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      transaction.type === 'income' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {transaction.type === 'income' ? 'আয়' : 'ব্যয়'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <span className={transaction.type === 'income' ? 'text-green-600' : 'text-red-600'}>
+                      {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      transaction.status === 'completed' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {transaction.status === 'completed' ? 'সম্পন্ন' : 'অপেক্ষমান'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  const ReportsTab = () => (
+    <div className="space-y-6">
+      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+        <h2 className="text-xl font-semibold mb-4">রিপোর্ট ও বিশ্লেষণ</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="text-center p-6 border border-gray-200 rounded-lg">
+            <BarChart3 className="mx-auto mb-4 text-blue-600" size={48} />
+            <h3 className="font-semibold mb-2">বিক্রয় রিপোর্ট</h3>
+            <p className="text-sm text-gray-600">মাসিক এবং বার্ষিক বিক্রয় বিশ্লেষণ</p>
+          </div>
+          <div className="text-center p-6 border border-gray-200 rounded-lg">
+            <PieChart className="mx-auto mb-4 text-green-600" size={48} />
+            <h3 className="font-semibold mb-2">ক্লায়েন্ট বিশ্লেষণ</h3>
+            <p className="text-sm text-gray-600">শীর্ষ ক্লায়েন্ট এবং পেমেন্ট প্যাটার্ন</p>
+          </div>
+          <div className="text-center p-6 border border-gray-200 rounded-lg">
+            <Receipt className="mx-auto mb-4 text-purple-600" size={48} />
+            <h3 className="font-semibold mb-2">ট্যাক্স রিপোর্ট</h3>
+            <p className="text-sm text-gray-600">ট্যাক্স গণনা এবং সারসংক্ষেপ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-4">
+              <Calculator className="text-blue-600" size={32} />
+              <h1 className="text-2xl font-bold text-gray-900">ইনভয়েস ম্যানেজমেন্ট</h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setShowCalculationPanel(true)}
+                className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors"
+              >
+                <Calculator size={16} />
+                <span>ক্যালকুলেটর</span>
+              </button>
+              <button
+                onClick={() => setShowPreview(true)}
+                className="flex items-center space-x-2 bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-2 rounded-lg transition-colors"
+              >
+                <Eye size={16} />
+                <span>প্রিভিউ</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex space-x-8">
+            {[
+              { id: 'dashboard', label: 'ড্যাশবোর্ড', icon: BarChart3 },
+              { id: 'invoices', label: 'ইনভয়েস', icon: FileText },
+              { id: 'clients', label: 'ক্লায়েন্ট', icon: Users },
+              { id: 'transactions', label: 'লেনদেন', icon: DollarSign },
+              { id: 'reports', label: 'রিপোর্ট', icon: TrendingUp }
+            ].map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <Icon size={16} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            {activeTab === 'dashboard' && <DashboardTab />}
+            {activeTab === 'invoices' && <InvoicesTab />}
+            {activeTab === 'clients' && <ClientsTab />}
+            {activeTab === 'transactions' && <TransactionsTab />}
+            {activeTab === 'reports' && <ReportsTab />}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {showCreateInvoice && (
+          <InvoiceForm
+            onClose={() => setShowCreateInvoice(false)}
+            onSubmit={handleCreateInvoice}
+            clients={clients}
+          />
+        )}
+        
+        {showCreateClient && (
+          <ClientForm
+            onClose={() => {
+              setShowCreateClient(false);
+              setEditingClient(null);
+            }}
+            onSubmit={handleCreateClient}
+            editingClient={editingClient}
+          />
+        )}
+        
+        {showAddTransaction && (
+          <TransactionForm
+            onClose={() => setShowAddTransaction(false)}
+            onSubmit={handleCreateTransaction}
+          />
+        )}
+        
+        {showCalculationPanel && (
+          <InvoiceCalculationPanel
+            onClose={() => setShowCalculationPanel(false)}
+          />
+        )}
+        
+        {showPreview && previewContent && (
+          <PreviewManager
+            content={previewContent}
+            onClose={() => setShowPreview(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Notification */}
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-4 right-4 z-50"
+          >
+            <div className={`p-4 rounded-lg shadow-lg ${
+              notification.type === 'success' 
+                ? 'bg-green-500 text-white' 
+                : 'bg-red-500 text-white'
+            }`}>
+              <div className="flex items-center space-x-2">
+                {notification.type === 'success' ? (
+                  <CheckCircle size={20} />
+                ) : (
+                  <AlertCircle size={20} />
+                )}
+                <span>{notification.message}</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default Invoicing;

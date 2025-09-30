@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Eye, 
-  Edit, 
-  Trash2, 
-  Download, 
-  Copy, 
-  Send, 
-  Mail, 
-  FileText, 
-  DollarSign, 
-  Calendar, 
-  User, 
+import {
+  Eye,
+  Edit,
+  Trash2,
+  Download,
+  Copy,
+  Send,
+  Mail,
+  FileText,
+  DollarSign,
+  Calendar,
+  User,
   MoreVertical,
   Filter,
   Search,
@@ -25,7 +25,9 @@ import {
   Settings,
   Shield,
   ChevronDown,
-  X
+  X,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react';
 import StatusIcon, { InvoiceStatus } from './StatusIcon';
 import StatusBadge from './StatusBadge';

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import InvoiceManagement from '../components/InvoiceManagement';
 import InvoiceActionPanel from '../components/InvoiceActionPanel';
+import InvoiceForm from '../components/InvoiceForm';
 import StatusBadge from '../components/StatusBadge';
 import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
 import StatusSelector from '../components/StatusSelector';
@@ -9,7 +10,7 @@ import { InvoiceStatus } from '../components/StatusIcon';
 import PreviewManager from '../components/PreviewManager';
 import PreviewDebugger from '../components/PreviewDebugger';
 import { PreviewContent } from '../hooks/useLivePreview';
-import { Shield, User, Settings, Eye, CreditCard as Edit, Send, Download, CreditCard, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Shield, User, Settings, Eye, CreditCard as Edit, Send, Download, CreditCard, ToggleLeft, ToggleRight, CheckCircle, Bug } from 'lucide-react';
 
 interface UserRole {
   id: string;
@@ -28,6 +29,10 @@ const InvoiceManagementDemo: React.FC = () => {
   const [showPreviewDemo, setShowPreviewDemo] = useState(false);
   const [showDebugger, setShowDebugger] = useState(false);
   const [previewContent, setPreviewContent] = useState<PreviewContent | null>(null);
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false);
+  const [invoices, setInvoices] = useState<any[]>([]);
+  const [clients, setClients] = useState<any[]>([]);
+  const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Define user roles and permissions
   const userRoles: UserRole[] = [
@@ -95,13 +100,47 @@ const InvoiceManagementDemo: React.FC = () => {
     };
   };
 
+  const showNotification = (type: 'success' | 'error', message: string) => {
+    setNotification({ type, message });
+    setTimeout(() => setNotification(null), 5000);
+  };
+
+  const handleSaveInvoice = (invoiceData: any) => {
+    const newInvoice = {
+      id: Date.now().toString(),
+      invoiceNumber: invoiceData.invoiceNumber,
+      clientName: invoiceData.clientName,
+      clientEmail: invoiceData.clientEmail,
+      clientPhone: invoiceData.clientPhone,
+      issueDate: invoiceData.invoiceDate,
+      dueDate: invoiceData.dueDate,
+      status: 'draft' as InvoiceStatus,
+      subtotal: invoiceData.subtotal,
+      tax: invoiceData.taxAmount,
+      discount: invoiceData.discount,
+      totalAmount: invoiceData.totalAmount,
+      currency: 'BDT',
+      notes: invoiceData.notes,
+      lineItems: invoiceData.items,
+      paymentHistory: [],
+      remindersSent: 0,
+      createdBy: 'admin',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    setInvoices(prev => [newInvoice, ...prev]);
+    setShowInvoiceForm(false);
+    showNotification('success', `ইনভয়েস ${invoiceData.invoiceNumber} সফলভাবে তৈরি হয়েছে!`);
+  };
+
   const handleInvoiceAction = (action: string, invoice: any) => {
     console.log('Invoice Action:', action, invoice);
 
     // Handle specific actions
     switch (action) {
       case 'create':
-        alert('নতুন ইনভয়েস তৈরি করার ফর্ম খুলবে। এটি একটি ডেমো।');
+        setShowInvoiceForm(true);
         break;
       case 'view':
         setSelectedInvoice(invoice);
@@ -144,6 +183,25 @@ const InvoiceManagementDemo: React.FC = () => {
     setPreviewContent(content);
     setShowPreviewDemo(true);
   };
+
+  React.useEffect(() => {
+    setClients([
+      {
+        id: '1',
+        name: 'ঢাকা কনস্ট্রাকশন কোম্পানি',
+        email: 'info@dhakaconst.com',
+        phone: '+880 1711-123456',
+        address: 'ধানমন্ডি, ঢাকা'
+      },
+      {
+        id: '2',
+        name: 'গ্রিন এগ্রো ফার্ম',
+        email: 'contact@greenagro.com',
+        phone: '+880 1812-654321',
+        address: 'সাভার, ঢাকা'
+      }
+    ]);
+  }, []);
   return (
     <div className="min-h-screen bg-gray-50 pt-32 pb-16">
       <div className="container mx-auto px-4">
@@ -488,6 +546,37 @@ const InvoiceManagementDemo: React.FC = () => {
         </div>
       </div>
       
+      {/* Invoice Form Modal */}
+      <InvoiceForm
+        isOpen={showInvoiceForm}
+        onClose={() => setShowInvoiceForm(false)}
+        onSave={handleSaveInvoice}
+        clients={clients}
+      />
+
+      {/* Notification */}
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-4 right-4 z-50"
+          >
+            <div className={`p-4 rounded-lg shadow-lg ${
+              notification.type === 'success'
+                ? 'bg-green-500 text-white'
+                : 'bg-red-500 text-white'
+            }`}>
+              <div className="flex items-center space-x-2">
+                <CheckCircle size={20} />
+                <span>{notification.message}</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Preview Debugger */}
       <PreviewDebugger
         isOpen={showDebugger}

@@ -97,9 +97,12 @@ const InvoiceManagementDemo: React.FC = () => {
 
   const handleInvoiceAction = (action: string, invoice: any) => {
     console.log('Invoice Action:', action, invoice);
-    
+
     // Handle specific actions
     switch (action) {
+      case 'create':
+        alert('নতুন ইনভয়েস তৈরি করার ফর্ম খুলবে। এটি একটি ডেমো।');
+        break;
       case 'view':
         setSelectedInvoice(invoice);
         setShowActionPanel(true);

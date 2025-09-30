@@ -1,34 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Eye,
-  Edit,
-  Trash2,
-  Download,
-  Copy,
-  Send,
-  Mail,
-  FileText,
-  DollarSign,
-  Calendar,
-  User,
-  MoreVertical,
-  Filter,
-  Search,
-  Plus,
-  Archive,
-  Printer,
-  MessageSquare,
-  History,
-  CreditCard,
-  RefreshCw,
-  Settings,
-  Shield,
-  ChevronDown,
-  X,
-  CheckCircle,
-  AlertCircle
-} from 'lucide-react';
+import { Eye, CreditCard as Edit, Trash2, Download, Copy, Send, Mail, FileText, DollarSign, Calendar, User, MoreVertical, Filter, Search, Plus, Archive, Printer, MessageSquare, History, CreditCard, RefreshCw, Settings, Shield, ChevronDown, X, CheckCircle, AlertCircle } from 'lucide-react';
 import StatusIcon, { InvoiceStatus } from './StatusIcon';
 import StatusBadge from './StatusBadge';
 import InvoiceStatusIndicator from './InvoiceStatusIndicator';

@@ -46,13 +46,14 @@ interface InvoiceFormData {
 }
 
 interface InvoiceFormProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
-  onSave: (invoice: InvoiceFormData) => void;
+  onSave?: (invoice: InvoiceFormData) => void;
+  onSubmit?: (invoice: InvoiceFormData) => void;
   clients: Array<{ id: string; name: string; email: string; phone: string; address: string }>;
 }
 
-const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clients }) => {
+const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen = true, onClose, onSave, onSubmit, clients }) => {
   const [formData, setFormData] = useState<InvoiceFormData>({
     invoiceNumber: `INV-${Date.now().toString().slice(-6)}`,
     clientName: '',
@@ -218,8 +219,14 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ isOpen, onClose, onSave, clie
         status: (action === 'send' ? 'sent' : 'draft') as InvoiceStatus,
         createdDate: new Date().toISOString().split('T')[0]
       };
-      
-      onSave(invoiceData);
+
+      // Support both onSave and onSubmit callbacks for compatibility
+      if (onSave) {
+        onSave(invoiceData);
+      }
+      if (onSubmit) {
+        onSubmit(invoiceData);
+      }
       onClose();
       
       // Reset form

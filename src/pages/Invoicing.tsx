@@ -12,6 +12,7 @@ import StatusBadge from '../components/StatusBadge';
 import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
 import { InvoiceStatus } from '../components/StatusIcon';
 import StatusIcon, { getStatusLabel } from '../components/StatusIcon';
+import { InvoiceDatabase } from '../services/invoiceDatabase';
 
 interface Invoice {
   id: string;
@@ -89,7 +90,84 @@ const Invoicing: React.FC = () => {
   // Invoice calculations hook
   const { calculateTotals, isCalculating } = useInvoiceCalculations();
 
-  // Initialize with sample data
+  // Load data from database
+  useEffect(() => {
+    loadInvoices();
+    loadClients();
+    loadTransactions();
+  }, []);
+
+  const loadInvoices = async () => {
+    const { data, error } = await InvoiceDatabase.getInvoices();
+    if (error) {
+      console.error('Error loading invoices:', error);
+      showNotification('error', 'ইনভয়েস লোড করতে ব্যর্থ হয়েছে');
+      return;
+    }
+    if (data && data.length > 0) {
+      const formattedInvoices = data.map((inv: any) => ({
+        id: inv.id,
+        invoiceNumber: inv.invoice_number,
+        clientName: inv.client_name,
+        clientEmail: inv.client_email,
+        amount: Number(inv.subtotal),
+        tax: Number(inv.tax_amount),
+        totalAmount: Number(inv.total_amount),
+        status: inv.status as InvoiceStatus,
+        dueDate: inv.due_date,
+        createdDate: inv.invoice_date,
+        paidDate: inv.paid_date,
+        partialPaymentAmount: inv.paid_amount ? Number(inv.paid_amount) : undefined,
+        remindersSent: inv.reminders_sent || 0,
+        items: inv.items || []
+      }));
+      setInvoices(formattedInvoices);
+    }
+  };
+
+  const loadClients = async () => {
+    const { data, error } = await InvoiceDatabase.getClients();
+    if (error) {
+      console.error('Error loading clients:', error);
+      return;
+    }
+    if (data && data.length > 0) {
+      const formattedClients = data.map((client: any) => ({
+        id: client.id,
+        name: client.name,
+        email: client.email,
+        phone: client.phone || '',
+        address: client.address || '',
+        companyName: client.company_name,
+        taxId: client.tax_id,
+        businessType: client.business_type,
+        paymentTerms: client.payment_terms,
+        preferredPaymentMethod: client.preferred_payment_method,
+        billingAddress: client.billing_address,
+        currency: client.currency,
+        language: client.language,
+        emailNotifications: client.email_notifications,
+        smsNotifications: client.sms_notifications,
+        createdDate: client.created_at,
+        totalInvoices: 0,
+        totalAmount: 0
+      }));
+      setClients(formattedClients);
+    }
+  };
+
+  const loadTransactions = async () => {
+    const { data, error } = await InvoiceDatabase.getTransactions();
+    if (error) {
+      console.error('Error loading transactions:', error);
+      return;
+    }
+    if (data && data.length > 0) {
+      setTransactions(data);
+    }
+  };
+
+  // Initialize with sample data for demo if database is empty
   useEffect(() => {
     const sampleInvoices: Invoice[] = [
       {
@@ -248,107 +326,107 @@ const Invoicing: React.FC = () => {
   };
 
   // Handle new invoice creation
-  const handleCreateInvoice = (invoiceData: any) => {
-    const newInvoice: Invoice = {
-      id: Date.now().toString(),
-      invoiceNumber: invoiceData.invoiceNumber,
-      clientName: invoiceData.clientName,
-      clientEmail: invoiceData.clientEmail,
-      amount: invoiceData.subtotal,
-      tax: invoiceData.taxAmount,
-      totalAmount: invoiceData.totalAmount,
-      status: invoiceData.status,
-      dueDate: invoiceData.dueDate,
-      createdDate: invoiceData.invoiceDate,
+  const handleCreateInvoice = async (invoiceData: any) => {
+    const invoiceToCreate = {
+      invoice_number: invoiceData.invoiceNumber,
+      client_name: invoiceData.clientName,
+      client_email: invoiceData.clientEmail,
+      client_phone: invoiceData.clientPhone,
+      client_address: invoiceData.clientAddress,
+      invoice_date: invoiceData.invoiceDate,
+      due_date: invoiceData.dueDate,
+      status: invoiceData.status as InvoiceStatus,
+      subtotal: invoiceData.subtotal,
+      tax_rate: invoiceData.taxRate || 15,
+      tax_amount: invoiceData.taxAmount,
+      discount: invoiceData.discount || 0,
+      total_amount: invoiceData.totalAmount,
+      currency: 'BDT',
+      notes: invoiceData.notes,
+      terms: invoiceData.terms,
       items: invoiceData.items
     };
 
-    setInvoices(prev => [newInvoice, ...prev]);
-    
-    // Update live preview with new invoice
-    setPreviewContent({
-      type: 'invoice',
-      data: newInvoice,
-      timestamp: new Date().toISOString(),
-      version: 1
-    });
-    
-    showNotification('success', `ইনভয়েস ${invoiceData.invoiceNumber} সফলভাবে তৈরি হয়েছে!`);
+    const { data, error } = await InvoiceDatabase.createInvoice(invoiceToCreate);
+
+    if (error) {
+      console.error('Error creating invoice:', error);
+      showNotification('error', 'ইনভয়েস তৈরি করতে ব্যর্থ হয়েছে!');
+      return;
+    }
+
+    if (data) {
+      // Reload invoices from database
+      await loadInvoices();
+
+      // Update live preview with new invoice
+      setPreviewContent({
+        type: 'invoice',
+        data: data,
+        timestamp: new Date().toISOString(),
+        version: 1
+      });
+
+      showNotification('success', `ইনভয়েস ${invoiceData.invoiceNumber} সফলভাবে তৈরি হয়েছে!`);
+    }
   };
 
   // Handle new client creation
-  const handleCreateClient = (clientData: any) => {
-    const newClient: Client = {
-      id: clientData.id,
+  const handleCreateClient = async (clientData: any) => {
+    const clientToSave = {
       name: clientData.name,
       email: clientData.email,
       phone: clientData.phone,
       address: clientData.address,
-      companyName: clientData.companyName,
-      taxId: clientData.taxId,
-      businessType: clientData.businessType,
-      paymentTerms: clientData.paymentTerms,
-      preferredPaymentMethod: clientData.preferredPaymentMethod,
-      billingAddress: clientData.billingAddress,
+      company_name: clientData.companyName,
+      tax_id: clientData.taxId,
+      business_type: clientData.businessType,
+      payment_terms: clientData.paymentTerms,
+      preferred_payment_method: clientData.preferredPaymentMethod,
+      billing_address: clientData.billingAddress,
       currency: clientData.currency,
       language: clientData.language,
-      emailNotifications: clientData.emailNotifications,
-      smsNotifications: clientData.smsNotifications,
-      createdDate: clientData.createdDate,
-      totalInvoices: clientData.totalInvoices,
-      totalAmount: clientData.totalAmount
+      email_notifications: clientData.emailNotifications,
+      sms_notifications: clientData.smsNotifications
     };
 
     if (editingClient) {
-      setClients(prev => prev.map(client => client.id === editingClient.id ? newClient : client));
+      const { data, error } = await InvoiceDatabase.updateClient(editingClient.id, clientToSave);
+      if (error) {
+        showNotification('error', 'ক্লায়েন্ট আপডেট করতে ব্যর্থ হয়েছে!');
+        return;
+      }
       showNotification('success', `ক্লায়েন্ট ${clientData.name} সফলভাবে আপডেট হয়েছে!`);
       setEditingClient(null);
     } else {
-      setClients(prev => [newClient, ...prev]);
+      const { data, error } = await InvoiceDatabase.createClient(clientToSave);
+      if (error) {
+        showNotification('error', 'ক্লায়েন্ট তৈরি করতে ব্যর্থ হয়েছে!');
+        return;
+      }
       showNotification('success', `নতুন ক্লায়েন্ট ${clientData.name} সফলভাবে যোগ করা হয়েছে!`);
     }
 
-    // Update live preview with new client
-    setPreviewContent({
-      type: 'client',
-      data: newClient,
-      timestamp: new Date().toISOString(),
-      version: 1
-    });
-
-    // Add invoices if any were created during client setup
-    if (clientData.invoices && clientData.invoices.length > 0) {
-      const newInvoices = clientData.invoices.map((invoice: any) => ({
-        ...invoice,
-        clientName: clientData.name,
-        clientEmail: clientData.email,
-        createdDate: new Date().toISOString().split('T')[0]
-      }));
-      setInvoices(prev => [...newInvoices, ...prev]);
-      showNotification('success', `${clientData.invoices.length}টি ইনভয়েস যোগ করা হয়েছে!`);
-    }
+    // Reload clients
+    await loadClients();
   };
 
   // Handle new transaction creation
-  const handleCreateTransaction = (transactionData: any) => {
-    const newTransaction: Transaction = {
-      id: transactionData.id,
-      type: transactionData.type,
-      description: transactionData.description,
-      amount: transactionData.amount,
-      category: transactionData.category,
-      date: transactionData.date,
-      status: transactionData.status,
-      notes: transactionData.notes
-    };
+  const handleCreateTransaction = async (transactionData: any) => {
+    const { data, error } = await InvoiceDatabase.createTransaction(transactionData);
 
-    setTransactions(prev => [newTransaction, ...prev]);
+    if (error) {
+      showNotification('error', 'লেনদেন তৈরি করতে ব্যর্থ হয়েছে!');
+      return;
+    }
+
+    await loadTransactions();
     showNotification('success', `নতুন ${transactionData.type === 'income' ? 'আয়' : 'ব্যয়'} লেনদেন যোগ করা হয়েছে!`);
-    
+
     // Update live preview with new transaction
     setPreviewContent({
       type: 'transaction',
-      data: newTransaction,
+      data: data,
       timestamp: new Date().toISOString(),
       version: 1
     });
@@ -361,9 +439,14 @@ const Invoicing: React.FC = () => {
   };
 
   // Handle client deletion
-  const handleDeleteClient = (clientId: string) => {
+  const handleDeleteClient = async (clientId: string) => {
     if (window.confirm('আপনি কি নিশ্চিত যে এই ক্লায়েন্টকে মুছে ফেলতে চান?')) {
-      setClients(prev => prev.filter(client => client.id !== clientId));
+      const { error } = await InvoiceDatabase.deleteClient(clientId);
+      if (error) {
+        showNotification('error', 'ক্লায়েন্ট মুছতে ব্যর্থ হয়েছে!');
+        return;
+      }
+      await loadClients();
       showNotification('success', 'ক্লায়েন্ট সফলভাবে মুছে ফেলা হয়েছে!');
     }
   };
@@ -929,6 +1012,7 @@ const Invoicing: React.FC = () => {
       <AnimatePresence>
         {showCreateInvoice && (
           <InvoiceForm
+            isOpen={showCreateInvoice}
             onClose={() => setShowCreateInvoice(false)}
             onSubmit={handleCreateInvoice}
             clients={clients}

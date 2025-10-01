@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import InvoiceManagement from '../components/InvoiceManagement';
-import InvoiceActionPanel from '../components/InvoiceActionPanel';
 import InvoiceForm from '../components/InvoiceForm';
 import StatusBadge from '../components/StatusBadge';
 import InvoiceStatusIndicator from '../components/InvoiceStatusIndicator';
@@ -21,11 +20,6 @@ interface UserRole {
 
 const InvoiceManagementDemo: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>('admin');
-  const [showActionPanel, setShowActionPanel] = useState(false);
-  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
-  const [actionPanelLayout, setActionPanelLayout] = useState<'horizontal' | 'vertical' | 'grid'>('horizontal');
-  const [groupByCategory, setGroupByCategory] = useState(false);
-  const [showLabels, setShowLabels] = useState(true);
   const [showPreviewDemo, setShowPreviewDemo] = useState(false);
   const [showDebugger, setShowDebugger] = useState(false);
   const [previewContent, setPreviewContent] = useState<PreviewContent | null>(null);
@@ -143,8 +137,7 @@ const InvoiceManagementDemo: React.FC = () => {
         setShowInvoiceForm(true);
         break;
       case 'view':
-        setSelectedInvoice(invoice);
-        setShowActionPanel(true);
+        alert(`বিস্তারিত দেখুন: ${invoice.invoiceNumber}`);
         break;
       case 'edit':
         alert(`সম্পাদনা: ${invoice.invoiceNumber}`);
@@ -164,19 +157,6 @@ const InvoiceManagementDemo: React.FC = () => {
       default:
         alert(`অ্যাকশন: ${action} - ${invoice.invoiceNumber || 'Multiple invoices'}`);
     }
-  };
-
-  const sampleInvoice = {
-    id: '1',
-    invoiceNumber: 'INV-2024-001',
-    clientName: 'ঢাকা কনস্ট্রাকশন কোম্পানি',
-    clientEmail: 'info@dhakaconst.com',
-    status: 'sent' as InvoiceStatus,
-    totalAmount: 287500,
-    currency: 'BDT',
-    dueDate: '2024-02-15',
-    issueDate: '2024-01-15',
-    remindersSent: 1
   };
 
   const handleTestPreview = (content: PreviewContent) => {
@@ -333,71 +313,8 @@ const InvoiceManagementDemo: React.FC = () => {
           </div>
         </div>
 
-        {/* Action Panel Demo */}
+        {/* Live Preview Demo */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">অ্যাকশন প্যানেল ডেমো</h3>
-              <button
-                onClick={() => setShowActionPanel(!showActionPanel)}
-                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                <Eye size={16} />
-                <span>{showActionPanel ? 'লুকান' : 'দেখান'}</span>
-              </button>
-            </div>
-
-            {showActionPanel && (
-              <div className="space-y-4">
-                {/* Layout Controls */}
-                <div className="flex flex-wrap gap-4 p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      লেআউট
-                    </label>
-                    <select
-                      value={actionPanelLayout}
-                      onChange={(e) => setActionPanelLayout(e.target.value as any)}
-                      className="px-3 py-1.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                    >
-                      <option value="horizontal">হরিজন্টাল</option>
-                      <option value="vertical">ভার্টিক্যাল</option>
-                      <option value="grid">গ্রিড</option>
-                    </select>
-                  </div>
-
-                  <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => setGroupByCategory(!groupByCategory)}
-                      className="flex items-center space-x-2 text-sm"
-                    >
-                      {groupByCategory ? <ToggleRight className="text-blue-600" size={20} /> : <ToggleLeft className="text-gray-400" size={20} />}
-                      <span>ক্যাটেগরি অনুযায়ী গ্রুপ</span>
-                    </button>
-
-                    <button
-                      onClick={() => setShowLabels(!showLabels)}
-                      className="flex items-center space-x-2 text-sm"
-                    >
-                      {showLabels ? <ToggleRight className="text-blue-600" size={20} /> : <ToggleLeft className="text-gray-400" size={20} />}
-                      <span>লেবেল দেখান</span>
-                    </button>
-                  </div>
-                </div>
-
-                <InvoiceActionPanel
-                  invoice={sampleInvoice}
-                  userPermissions={getCurrentRole().permissions}
-                  onAction={handleInvoiceAction}
-                  layout={actionPanelLayout}
-                  showLabels={showLabels}
-                  groupByCategory={groupByCategory}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Live Preview Demo */}
           <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">লাইভ প্রিভিউ ডেমো</h3>

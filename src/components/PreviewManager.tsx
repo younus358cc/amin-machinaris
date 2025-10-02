@@ -143,7 +143,7 @@ const PreviewManager: React.FC<PreviewManagerProps> = ({
           <button
             onClick={() => setDebugMode(!debugMode)}
             className={`p-2 rounded-lg transition-colors ${
-              debugMode ? 'bg-purple-100 text-purple-600' : 'text-gray-600 hover:bg-gray-100'
+              debugMode ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
             }`}
             title="Toggle Debug Mode"
           >
@@ -209,36 +209,36 @@ const PreviewManager: React.FC<PreviewManagerProps> = ({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mb-4 p-4 bg-purple-50 border border-purple-200 rounded-lg"
+            className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg"
           >
-            <h4 className="font-medium text-purple-800 mb-3">Debug Information</h4>
+            <h4 className="font-medium text-blue-800 mb-3">Debug Information</h4>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
               <div>
-                <span className="text-purple-600 font-medium">Content Type:</span>
-                <div className="text-purple-800">{debugInfo.contentType}</div>
+                <span className="text-blue-600 font-medium">Content Type:</span>
+                <div className="text-blue-800">{debugInfo.contentType}</div>
               </div>
               <div>
-                <span className="text-purple-600 font-medium">Version:</span>
-                <div className="text-purple-800">{debugInfo.version}</div>
+                <span className="text-blue-600 font-medium">Version:</span>
+                <div className="text-blue-800">{debugInfo.version}</div>
               </div>
               <div>
-                <span className="text-purple-600 font-medium">Last Update:</span>
-                <div className="text-purple-800">{debugInfo.lastUpdate}</div>
+                <span className="text-blue-600 font-medium">Last Update:</span>
+                <div className="text-blue-800">{debugInfo.lastUpdate}</div>
               </div>
               <div>
-                <span className="text-purple-600 font-medium">Connected:</span>
+                <span className="text-blue-600 font-medium">Connected:</span>
                 <div className={debugInfo.isConnected ? 'text-green-600' : 'text-red-600'}>
                   {debugInfo.isConnected ? 'Yes' : 'No'}
                 </div>
               </div>
               <div>
-                <span className="text-purple-600 font-medium">Has Error:</span>
+                <span className="text-blue-600 font-medium">Has Error:</span>
                 <div className={debugInfo.hasError ? 'text-red-600' : 'text-green-600'}>
                   {debugInfo.hasError ? 'Yes' : 'No'}
                 </div>
               </div>
               <div>
-                <span className="text-purple-600 font-medium">Loading:</span>
+                <span className="text-blue-600 font-medium">Loading:</span>
                 <div className={debugInfo.isLoading ? 'text-yellow-600' : 'text-green-600'}>
                   {debugInfo.isLoading ? 'Yes' : 'No'}
                 </div>

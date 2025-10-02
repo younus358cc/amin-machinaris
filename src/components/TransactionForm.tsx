@@ -148,8 +148,8 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClose, onSa
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                <DollarSign className="text-purple-600" size={20} />
+              <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
+                <DollarSign className="text-teal-600" size={20} />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900">নতুন লেনদেন যোগ করুন</h2>
@@ -326,7 +326,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClose, onSa
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                  className="flex items-center space-x-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>

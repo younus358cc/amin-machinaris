@@ -259,8 +259,8 @@ const BusinessOwnerButton: React.FC<BusinessOwnerButtonProps> = ({
 
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                        <User className="text-purple-600" size={20} />
+                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <User className="text-blue-600" size={20} />
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">শিক্ষাগত যোগ্যতা</p>

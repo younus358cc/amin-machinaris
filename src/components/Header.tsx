@@ -161,7 +161,7 @@ const Header: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <Link
                     to="/invoicing"
-                    className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
                   >
                     <Calculator size={18} />
                     <span>অ্যাকাউন্টিং</span>
@@ -204,7 +204,7 @@ const Header: React.FC = () => {
                 <div className="flex items-center space-x-2">
                   <Link
                     to="/invoicing"
-                    className="flex items-center space-x-1 bg-purple-600 hover:bg-purple-700 text-white px-2 py-1.5 rounded-lg transition-colors text-sm"
+                    className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1.5 rounded-lg transition-colors text-sm"
                   >
                     <Calculator size={14} />
                     <span>অ্যাকাউন্টিং</span>
@@ -296,7 +296,7 @@ const Header: React.FC = () => {
                       <Link
                         to="/invoicing"
                         onClick={closeMenu}
-                        className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-lg transition-colors"
+                        className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors"
                       >
                         <Calculator size={16} />
                         <span>অ্যাকাউন্টিং সিস্টেম</span>

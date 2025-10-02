@@ -165,7 +165,7 @@ const InvoiceCalculationPanel: React.FC<InvoiceCalculationPanelProps> = ({
       {/* Batch Invoice Calculation */}
       <div className="mb-8">
         <h4 className="font-medium mb-4 flex items-center">
-          <Database className="mr-2 text-purple-600" size={16} />
+          <Database className="mr-2 text-blue-600" size={16} />
           ব্যাচ আপডেট (একাধিক ইনভয়েস)
         </h4>
         
@@ -187,7 +187,7 @@ const InvoiceCalculationPanel: React.FC<InvoiceCalculationPanelProps> = ({
             <button
               onClick={handleBatchCalculation}
               disabled={isUpdating || !batchInvoiceIds.trim()}
-              className="w-full flex items-center justify-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isUpdating ? (
                 <>

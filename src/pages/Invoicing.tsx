@@ -493,7 +493,7 @@ const Invoicing: React.FC = () => {
           </button>
           <button
             onClick={() => setShowAddTransaction(true)}
-            className="flex items-center justify-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg transition-colors"
+            className="flex items-center justify-center space-x-2 bg-teal-600 hover:bg-teal-700 text-white p-4 rounded-lg transition-colors"
           >
             <DollarSign size={20} />
             <span>নতুন লেনদেন</span>
@@ -562,10 +562,10 @@ const Invoicing: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">মোট ক্লায়েন্ট</p>
-              <p className="text-2xl font-bold text-purple-600">{dashboardStats.totalClients}</p>
+              <p className="text-2xl font-bold text-teal-600">{dashboardStats.totalClients}</p>
             </div>
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-              <Users className="text-purple-600" size={24} />
+            <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+              <Users className="text-teal-600" size={24} />
             </div>
           </div>
         </motion.div>
@@ -830,7 +830,7 @@ const Invoicing: React.FC = () => {
           <h2 className="text-xl font-semibold">লেনদেন ইতিহাস</h2>
           <button
             onClick={() => setShowAddTransaction(true)}
-            className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center space-x-2 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors"
           >
             <Plus size={20} />
             <span>নতুন লেনদেন</span>
@@ -919,7 +919,7 @@ const Invoicing: React.FC = () => {
             <p className="text-sm text-gray-600">শীর্ষ ক্লায়েন্ট এবং পেমেন্ট প্যাটার্ন</p>
           </div>
           <div className="text-center p-6 border border-gray-200 rounded-lg">
-            <Receipt className="mx-auto mb-4 text-purple-600" size={48} />
+            <Receipt className="mx-auto mb-4 text-teal-600" size={48} />
             <h3 className="font-semibold mb-2">ট্যাক্স রিপোর্ট</h3>
             <p className="text-sm text-gray-600">ট্যাক্স গণনা এবং সারসংক্ষেপ</p>
           </div>

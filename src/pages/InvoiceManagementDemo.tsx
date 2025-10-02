@@ -321,7 +321,7 @@ const InvoiceManagementDemo: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setShowDebugger(true)}
-                  className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded text-sm transition-colors"
+                  className="flex items-center space-x-2 bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded text-sm transition-colors"
                 >
                   <Bug size={14} />
                   <span>Debug</span>
@@ -372,7 +372,7 @@ const InvoiceManagementDemo: React.FC = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <Send className="text-purple-600 flex-shrink-0 mt-1" size={16} />
+                <Send className="text-teal-600 flex-shrink-0 mt-1" size={16} />
                 <div>
                   <h4 className="font-medium">সেন্ড অ্যাকশন</h4>
                   <p className="text-sm text-gray-600">ইমেইল, SMS, রিমাইন্ডার পাঠান</p>
@@ -388,7 +388,7 @@ const InvoiceManagementDemo: React.FC = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <Download className="text-indigo-600 flex-shrink-0 mt-1" size={16} />
+                <Download className="text-blue-600 flex-shrink-0 mt-1" size={16} />
                 <div>
                   <h4 className="font-medium">এক্সপোর্ট অ্যাকশন</h4>
                   <p className="text-sm text-gray-600">PDF, Excel ডাউনলোড, প্রিন্ট</p>

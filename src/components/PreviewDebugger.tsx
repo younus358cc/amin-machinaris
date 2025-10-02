@@ -88,8 +88,8 @@ const PreviewDebugger: React.FC<PreviewDebuggerProps> = ({
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                <Bug className="text-purple-600" size={20} />
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                <Bug className="text-orange-600" size={20} />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900">Preview Debugger</h2>
@@ -160,7 +160,7 @@ const PreviewDebugger: React.FC<PreviewDebuggerProps> = ({
                 </button>
                 <button
                   onClick={() => handleTestSample('transaction')}
-                  className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded transition-colors"
+                  className="px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-sm rounded transition-colors"
                 >
                   Test Transaction
                 </button>

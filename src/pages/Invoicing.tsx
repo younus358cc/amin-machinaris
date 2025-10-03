@@ -951,7 +951,7 @@ const Invoicing: React.FC = () => {
                 className="flex items-center space-x-2 bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-2 rounded-lg transition-colors"
               >
                 <Eye size={16} />
-                <span>প্রিভিউ</span>
+                <span>পূর্ণ স্ক্রীন প্রিভিউ</span>
               </button>
             </div>
           </div>
@@ -991,21 +991,33 @@ const Invoicing: React.FC = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-          >
-            {activeTab === 'dashboard' && <DashboardTab />}
-            {activeTab === 'invoices' && <InvoicesTab />}
-            {activeTab === 'clients' && <ClientsTab />}
-            {activeTab === 'transactions' && <TransactionsTab />}
-            {activeTab === 'reports' && <ReportsTab />}
-          </motion.div>
-        </AnimatePresence>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content Area */}
+          <div className="lg:col-span-2">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                {activeTab === 'dashboard' && <DashboardTab />}
+                {activeTab === 'invoices' && <InvoicesTab />}
+                {activeTab === 'clients' && <ClientsTab />}
+                {activeTab === 'transactions' && <TransactionsTab />}
+                {activeTab === 'reports' && <ReportsTab />}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Live Preview Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-4">
+              <PreviewManager initialContent={previewContent || undefined} />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Modals */}
